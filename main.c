@@ -1,16 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
-#define BUFFER 1024
+#include "main.h"
 
 /**
- * @brief
+ * main -
  *
- * @param argc
- * @param argv
- * @return int
+ * @argc
+ * @argv
+ * Return: int
  */
 int main(int argc, char *argv)
 {
@@ -35,9 +30,51 @@ void shell_loop(void)
 	} while (status);
 }
 /**
- * @brief
+ * shell_split_line -
  *
- * @return char*
+ * @line:
+ * Return: char**
+ */
+char **shell_split_line(char *line)
+{
+	int buffer_size = BUFFER;
+	int index = 0;
+	char **tokens = malloc(buffer_size * sizeof(char *));
+	char *token;
+
+	if (!tokens)
+	{
+		fprintf(stderr, "ERROR: failed to allocate memory\n");
+		exit(EXIT_FAILURE);
+	}
+
+	token = _strtok(line, TOK_DELIM);
+	while (token != NULL)
+	{
+		tokens[index] = token;
+		index++;
+
+		if (index >= BUFFER)
+		{
+			buffer_size += BUFFER;
+			tokens = realloc(tokens, buffer_size * sizeof(char *));
+			if (!tokens)
+			{
+
+				fprintf(stderr, "ERROR: failed to allocate memory\n");
+				exit(EXIT_FAILURE);
+			}
+		}
+		token = _strtok(NULL, TOK_DELIM);
+	}
+	tokens[index] = NULL;
+	return (tokens);
+}
+
+/**
+ * shell_read_line
+ *
+ * Return: char*
  */
 char *shell_read_line(void)
 {
@@ -48,6 +85,7 @@ char *shell_read_line(void)
 
 	if (!buffer)
 	{
+		fprintf(stderr, "ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
 	while (true)
@@ -71,6 +109,7 @@ char *shell_read_line(void)
 			buffer = realloc(BUFFER, buffer_size);
 			if (!buffer)
 			{
+				fprintf(stderr, "ERROR: failed to allocate memory\n");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -78,10 +117,33 @@ char *shell_read_line(void)
 }
 
 /**
- * @brief
+ * _strtok -
  *
- * @return int
+ * @str
+ * @delimiter
+ * Return: char*
  */
-int getchar(void)
+char *_strtok(char *str, const char *delimiter)
 {
+	static char *buffer = NULL;
+	if (str != NULL)
+	{
+		buffer = str;
+	}
+	if (buffer == NULL)
+	{
+		return NULL;
+	}
+	char *token = buffer;
+	buffer += strcspn(buffer, delimiter);
+	if (*buffer != '\0')
+	{
+		*buffer = '\0';
+		buffer++;
+	}
+	else
+	{
+		buffer = NULL;
+	}
+	return token;
 }
