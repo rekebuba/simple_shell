@@ -147,3 +147,35 @@ char *_strtok(char *str, const char *delimiter)
 	}
 	return token;
 }
+
+int shell_execute(char **args)
+{
+	pid_t pid, w_pid;
+	int status;
+	
+	pid = fork();
+	if (pid == 0)
+	{
+		/* were in the chilled processor */
+		if (execvp(args[0], args) == -1)
+		{
+			perror("command not found");
+			exit(EXIT_FAILURE);
+		}
+	}
+	else if (pid < 0)
+	{
+		/* failed to fork */
+		perror("failed to fork");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		/* were in the parent processor */
+		do{
+			waitpid(pid, &status, WUNTRACED);
+		}while (!WIFEXITED(status) && !WIFSIGNALED(status));
+	}
+
+	return (0);
+}
