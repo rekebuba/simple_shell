@@ -1,53 +1,87 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define BUFFER 1024
 
 /**
- * _pow - function to raise a number by exponent
- * @base: int
- * @exponent: int
- * Return: unsigned int
+ * @brief
+ *
+ * @param argc
+ * @param argv
+ * @return int
  */
-unsigned int _pow(int base, int exponent)
+int main(int argc, char *argv)
 {
-	unsigned int result = 1;
-	int i;
+	shell_loop();
+}
 
-	for (i = 0; i < exponent; i++)
+void shell_loop(void)
+{
+	char *line;
+	char **args;
+	int status;
+
+	do
 	{
-		result *= base;
-	}
+		printf("$ ");
+		line = shell_read_line();
+		args = shell_split_line(line);
+		status = shell_execute(args);
 
-	return (result);
+		free(line);
+		free(args);
+	} while (status);
+}
+/**
+ * @brief
+ *
+ * @return char*
+ */
+char *shell_read_line(void)
+{
+	char *buffer = malloc(BUFFER * sizeof(char));
+	int index = 0;
+	int buffer_size = BUFFER;
+	int c;
+
+	if (!buffer)
+	{
+		exit(EXIT_FAILURE);
+	}
+	while (true)
+	{
+		/*read character by character*/
+		c = getchar();
+		if (c == EOF || c == '\n')
+		{
+			buffer[index] = '\0';
+			return (buffer);
+		}
+		else
+		{
+			buffer[index] = c;
+		}
+		index++;
+		/* if we have exceeded the buffer, reallocate*/
+		if (index >= buffer_size)
+		{
+			buffer_size += BUFFER;
+			buffer = realloc(BUFFER, buffer_size);
+			if (!buffer)
+			{
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
 }
 
 /**
- * binary_to_uint - converts a binary number to an unsigned int.
- * @b: is pointing to a string of 0 and 1 chars
- * Return: unsigned int
+ * @brief
+ *
+ * @return int
  */
-unsigned int binary_to_uint(const char *b)
+int getchar(void)
 {
-	int len = strlen(b), index = 0, j;
-	unsigned int result = 0;
-
-	if (b == NULL)
-	{
-		return (0);
-	}
-
-	for (j = len - 1; j >= 0; j--)
-	{
-		if (b[j] == '0')
-		{
-			index++;
-		}
-		else if (b[j] == '1')
-		{
-			result += _pow(2, index);
-			index++;
-		}
-		else
-			return (0);
-	}
-
-	return (result);
 }
