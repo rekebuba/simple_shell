@@ -106,7 +106,7 @@ char *shell_read_line(void)
 		if (index >= buffer_size)
 		{
 			buffer_size += BUFFER;
-			buffer = realloc(BUFFER, buffer_size);
+			buffer = realloc(buffer, buffer_size);
 			if (!buffer)
 			{
 				fprintf(stderr, "ERROR: failed to allocate memory\n");
@@ -166,7 +166,7 @@ int shell_execute(char **args)
 	else if (pid < 0)
 	{
 		/* failed to fork */
-		perror("failed to fork");
+		perror("failed to fork\n");
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -177,5 +177,5 @@ int shell_execute(char **args)
 		}while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 
-	return (0);
+	return (1);
 }
