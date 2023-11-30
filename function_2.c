@@ -89,7 +89,6 @@ int shell_execute(char **args)
 		/* were in the chilled processor */
 		if (execvp(args[0], args) == -1)
 		{
-			printf("%s: %d: %s: not found\n", args[0], count, args[0]);
 			exit(EXIT_FAILURE);
 		}
 	}

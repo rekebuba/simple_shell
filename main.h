@@ -10,12 +10,13 @@
 
 
 #define BUFFER 1024
-#define TOK_DELIM " \t\r\n\a" /* the delimeter used to tokenize*/
+#define TOK_DELIM " \t\r\n\a\"" /* the delimeter used to tokenize*/
 
 void shell_loop(void);
 char **shell_split_line(char *line);
 char *shell_read_line(void);
 char *_strtok(char *str, const char *delimiter);
 int shell_execute(char **args);
+int exit_command(char **args);
 
 #endif
