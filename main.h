@@ -18,5 +18,6 @@ char *shell_read_line(void);
 char *_strtok(char *str, const char *delimiter);
 int shell_execute(char **args);
 int exit_command(char **args);
+int cd_command(char **args);
 
 #endif

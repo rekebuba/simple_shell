@@ -32,5 +32,16 @@ void Error(char **args)
 
 int exit_command(char **args)
 {
-	return (0);
+	if (strcmp(args[0], "exit") == 0)
+		return (1);
+	return(0);
+}
+
+int cd_command(char **args)
+{
+	if (chdir(args[0]) != 0)
+	{
+		dprintf(2, )
+	}
+		return (1);
 }

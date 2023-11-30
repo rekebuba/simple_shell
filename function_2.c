@@ -7,42 +7,42 @@
  */
 char *shell_read_line(void)
 {
-	char *buffer = malloc(BUFFER * sizeof(char));
-	int index = 0;
-	int buffer_size = BUFFER;
-	int c;
+    char *buffer = malloc(BUFFER * sizeof(char));
+    int index = 0;
+    int buffer_size = BUFFER;
+    int c;
 
-	if (!buffer)
-	{
-		fprintf(stderr, "ERROR: failed to allocate memory\n");
-		exit(EXIT_FAILURE);
-	}
-	while (true)
-	{
-		/*read character by character*/
-		c = getchar();
-		if (c == EOF || c == '\n')
-		{
-			buffer[index] = '\0';
-			return (buffer);
-		}
-		else
-		{
-			buffer[index] = c;
-		}
-		index++;
-		/* if we have exceeded the buffer, reallocate*/
-		if (index >= buffer_size)
-		{
-			buffer_size += BUFFER;
-			buffer = realloc(buffer, buffer_size);
-			if (!buffer)
-			{
-				fprintf(stderr, "ERROR: failed to allocate memory\n");
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
+    if (!buffer)
+    {
+        fprintf(stderr, "ERROR: failed to allocate memory\n");
+        exit(EXIT_FAILURE);
+    }
+    while (true)
+    {
+        /*read character by character*/
+        c = getchar();
+        if (c == EOF || c == '\n')
+        {
+            buffer[index] = '\0';
+            return (buffer);
+        }
+        else
+        {
+            buffer[index] = c;
+        }
+        index++;
+        /* if we have exceeded the buffer, reallocate*/
+        if (index >= buffer_size)
+        {
+            buffer_size += BUFFER;
+            buffer = realloc(buffer, buffer_size);
+            if (!buffer)
+            {
+                fprintf(stderr, "ERROR: failed to allocate memory\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
 }
 
 /**
@@ -54,57 +54,62 @@ char *shell_read_line(void)
  */
 char *_strtok(char *str, const char *delimiter)
 {
-	static char *buffer = NULL;
-	if (str != NULL)
-	{
-		buffer = str;
-	}
-	if (buffer == NULL)
-	{
-		return NULL;
-	}
-	char *token = buffer;
-	buffer += strcspn(buffer, delimiter);
-	if (*buffer != '\0')
-	{
-		*buffer = '\0';
-		buffer++;
-	}
-	else
-	{
-		buffer = NULL;
-	}
-	return token;
+    static char *buffer = NULL;
+    if (str != NULL)
+    {
+        buffer = str;
+    }
+    if (buffer == NULL)
+    {
+        return NULL;
+    }
+    char *token = buffer;
+    buffer += strcspn(buffer, delimiter);
+    if (*buffer != '\0')
+    {
+        *buffer = '\0';
+        buffer++;
+    }
+    else
+    {
+        buffer = NULL;
+    }
+    return token;
 }
 
 int shell_execute(char **args)
 {
-	pid_t pid, w_pid;
-	int status;
+    pid_t pid, w_pid;
+    int status;
     int count = 0;
-	
-	pid = fork();
-	if (pid == 0)
-	{
-		/* were in the chilled processor */
-		if (execvp(args[0], args) == -1)
-		{
-			exit(EXIT_FAILURE);
-		}
-	}
-	else if (pid < 0)
-	{
-		/* failed to fork */
-		perror("failed to fork\n");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		/* were in the parent processor */
-		do{
-			waitpid(pid, &status, WUNTRACED);
-		}while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
 
-	return (1);
+    int value = 1;
+
+    pid = fork();
+    if (exit_command(args) || cd_command(args))
+        value = 0;
+    if (pid == 0)
+    {
+        /* were in the chilled processor */
+        if (execvp(args[0], args) == -1)
+        {
+            exit(EXIT_FAILURE);
+        }
+    }
+    else if (pid < 0)
+    {
+        /* failed to fork */
+        perror("failed to fork\n");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        /* were in the parent processor */
+        do
+        {
+            waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+
+    return (value);
 }
