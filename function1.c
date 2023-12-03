@@ -1,8 +1,8 @@
 #include "main.h"
 
 /*
- * shell_loop -
- *
+ * shell_loop - uses to prompt the user
+ * Return: void
  */
 void shell_loop(void)
 {
@@ -20,13 +20,11 @@ void shell_loop(void)
         free(line);
         free(args);
     } while (status);
-
-    exit(EXIT_FAILURE);
 }
 /**
- * shell_split_line -
+ * shell_split_line - it split the line by specifed delimeter
  *
- * @line:
+ * @line: the argument passed
  * Return: char**
  */
 char **shell_split_line(char *line)

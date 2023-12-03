@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * shell_read_line
+ * shell_read_line - it reads a line imputed bu the user
  *
  * Return: char*
  */
@@ -21,7 +21,7 @@ char *shell_read_line(void)
     {
         /*read character by character*/
         c = getchar();
-        if (c == EOF || c == '\n')
+        if (c == '\n')
         {
             buffer[index] = '\0';
             return (buffer);
@@ -46,24 +46,25 @@ char *shell_read_line(void)
 }
 
 /**
- * _strtok -
+ * _strtok - used to tokenize a string besed on specified delimeter
  *
- * @str
- * @delimiter
+ * @str: the string that needs to be tokenize
+ * @delimiter: delimiters
  * Return: char*
  */
 char *_strtok(char *str, const char *delimiter)
 {
     static char *buffer = NULL;
+    char *token;
     if (str != NULL)
     {
         buffer = str;
     }
     if (buffer == NULL)
     {
-        return NULL;
+        return (NULL);
     }
-    char *token = buffer;
+    token = buffer;
     buffer += strcspn(buffer, delimiter);
     if (*buffer != '\0')
     {
@@ -74,9 +75,15 @@ char *_strtok(char *str, const char *delimiter)
     {
         buffer = NULL;
     }
-    return token;
+    return (token);
 }
 
+/**
+ * shell_execute - it executes the command entered
+ * 
+ * @args: the argument passed
+ * Return: int
+ */
 int shell_execute(char **args)
 {
     pid_t pid, w_pid;

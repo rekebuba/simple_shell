@@ -1,10 +1,10 @@
 #include "main.h"
 
 /**
- * main -
+ * main - the main program
  *
- * @argc
- * @argv
+ * @argc: number if argument count
+ * @argv: the argument passed
  * Return: int
  */
 int main(int argc, char **argv)
@@ -13,14 +13,4 @@ int main(int argc, char **argv)
 	shell_loop();
 
 	exit(EXIT_FAILURE);
-}
-
-/**
- * Error -
- *
- * @param args
- */
-void Error(char **args)
-{
-	dprintf(2, "%s: not found\n", args[0]);
 }

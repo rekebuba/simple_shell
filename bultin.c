@@ -1,21 +1,41 @@
 #include "main.h"
 
+/**
+ * built_in_str- creating an array of builtin commands
+ * 
+ */
 char *built_in_str[] =
 	{
 		"cd",
 		"exit"};
 
+/**
+ * builtin_function - if the first argument is found for builtin commands
+ * it calls the function that is needed
+ * 
+ */
 int (*builtin_function[])(char **) =
 	{
 		&shell_cd,
 		&shell_exit};
 
+/**
+ * number_of_builtin - to fined the number of commands
+ * 
+ * Return: int
+ */
 int number_of_builtin(void)
 {
 	return (sizeof(built_in_str) / sizeof(char *));
 }
 
-
+/* bellow are the required command */
+/**
+ * shell_cd - the cd command
+ * 
+ * @args: the argument passed
+ * Return: int
+ */
 int shell_cd(char **args)
 {
 	char *home_dir;
@@ -41,6 +61,12 @@ int shell_cd(char **args)
 	return (1);
 }
 
+/**
+ * shell_exit - the exit command
+ * 
+ * @args: the argument passed
+ * return: int
+ */
 int shell_exit(char **args)
 {
 	int i;
@@ -58,6 +84,12 @@ int shell_exit(char **args)
 	exit(0);
 }
 
+/**
+ * shell_launch - all the builtin are executed inside this func
+ * 
+ * @args: the argument passed
+ * Return: int
+ */
 int shell_launch(char **args)
 {
 	int i;
@@ -68,6 +100,6 @@ int shell_launch(char **args)
 			return (builtin_function[i](args));
 		}
 	}
-
+	/* if no argument is found */
 	return (shell_execute(args));
 }
