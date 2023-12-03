@@ -25,6 +25,58 @@ void Error(char **args)
 	dprintf(2, "%s: not found\n", args[0]);
 }
 
+char *array[] = {"cd", "exit"};
+
+int (*get_array[])(char **) = {&cd, &Exit};
+
+int cd(char **args)
+{
+
+}
+int Exit(char **args)
+{
+	return (1);
+	
+}
+
+int eacute(char **args)
+{
+	int i = 0;
+	for (i = 0; i < strlen(array); i++)
+	{
+		if (strcmp(args[0], array[i]) == 0)
+		{
+			return (get_array[i](args));
+		}
+	}
+	return ()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 char *built_in_str[] =
 	{
 		"cd",
