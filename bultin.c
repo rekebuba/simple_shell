@@ -2,12 +2,9 @@
 
 /**
  * built_in_str- creating an array of builtin commands
- * 
+
  */
-char *built_in_str[] =
-	{
-		"cd",
-		"exit"};
+char *built_in_str[] = {"cd", "exit"};
 
 /**
  * builtin_function - if the first argument is found for builtin commands
