@@ -9,10 +9,7 @@
  */
 int main(int argc, char **argv)
 {
-	if (strcmp(argv[0], "exit") == 1)
-	{
-		return 0;
-	}
+
 	shell_loop();
 
 	exit(EXIT_FAILURE);
@@ -44,8 +41,26 @@ int shell_exit(char **args)
 	return (1);
 }
 
-int (*built_in_function[])(char **) =
+int (*builtin_function[])(char **) =
 	{
 		&shell_cd,
 		&shell_exit};
 
+int number_of_builtin()
+{
+	return (sizeof(built_in_str) / sizeof(char *));
+}
+
+int shell_launch(char **args)
+{
+	int i;
+	for (i = 0; i < number_of_builtin(); i++)
+	{
+		if (strcmp(args[0], built_in_str[i]) == 0)
+		{
+			return (builtin_function[i](args));
+		}
+	}
+
+	return (shell_execute(args));
+}

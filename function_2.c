@@ -83,11 +83,8 @@ int shell_execute(char **args)
     int status;
     int count = 0;
 
-    int value = 1;
-
     pid = fork();
-    if (exit_command(args) || cd_command(args))
-        value = 0;
+
     if (pid == 0)
     {
         /* were in the chilled processor */
@@ -111,5 +108,5 @@ int shell_execute(char **args)
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
-    return (value);
+    return (1);
 }
