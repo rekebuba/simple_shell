@@ -3,7 +3,7 @@
 /**
  * main - the main program
  *
- * @argc: number if argument count
+ * @argc: number of argument count
  * @argv: the argument passed
  * Return: int
  */
