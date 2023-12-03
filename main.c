@@ -25,58 +25,6 @@ void Error(char **args)
 	dprintf(2, "%s: not found\n", args[0]);
 }
 
-char *array[] = {"cd", "exit"};
-
-int (*get_array[])(char **) = {&cd, &Exit};
-
-int cd(char **args)
-{
-
-}
-int Exit(char **args)
-{
-	return (1);
-	
-}
-
-int eacute(char **args)
-{
-	int i = 0;
-	for (i = 0; i < strlen(array); i++)
-	{
-		if (strcmp(args[0], array[i]) == 0)
-		{
-			return (get_array[i](args));
-		}
-	}
-	return ()
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 char *built_in_str[] =
 	{
 		"cd",
@@ -84,13 +32,25 @@ char *built_in_str[] =
 
 int shell_cd(char **args)
 {
-	chdir(args[1]);
+	if (args[1] == NULL)
+	{
+		chdir("~");
+		dprintf(2, "sus\n");
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+		{
+			dprintf(2, "cd: can't cd to %s\n", args[1]);
+		}
+	}
+
 	return (1);
 }
 
 int shell_exit(char **args)
 {
-	return (1);
+	return (0);
 }
 
 int (*builtin_function[])(char **) =
