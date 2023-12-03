@@ -21,7 +21,7 @@ char *shell_read_line(void)
     {
         /*read character by character*/
         c = getchar();
-        if (c == '\n')
+        if (c == EOF || c == '\n')
         {
             buffer[index] = '\0';
             return (buffer);

@@ -21,6 +21,7 @@ void shell_loop(void)
         free(args);
     } while (status);
 }
+
 /**
  * shell_split_line - it split the line by specifed delimeter
  *

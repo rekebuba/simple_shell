@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <signal.h>
 
 
 #define BUFFER 1024
