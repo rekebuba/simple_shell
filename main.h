@@ -18,6 +18,7 @@ char *shell_read_line(void);
 char *_strtok(char *str, const char *delimiter);
 int shell_execute(char **args);
 
+int shell_launch(char **args);
 int shell_cd (char ** args);
 int shell_exit(char **args);
 
