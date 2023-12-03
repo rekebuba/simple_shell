@@ -67,9 +67,11 @@ int shell_cd(char **args)
 int shell_exit(char **args)
 {
 	int i;
+	int len;
 	if (args[1] != NULL)
 	{
-		for (i = 0; i < strlen(args[1]); i++)
+		len = strlen(args[1]);
+		for (i = 0; i < len; i++)
 		{
 			if (!isdigit(args[1][i]))
 			{

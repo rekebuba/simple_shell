@@ -11,10 +11,12 @@ char *shell_read_line(void)
     int index = 0;
     int buffer_size = BUFFER;
     int c;
+    int i;
+    int len;
 
     if (!buffer)
     {
-        fprintf(stderr, "ERROR: failed to allocate memory\n");
+        perror("ERROR: failed to allocate memory\n");
         exit(EXIT_FAILURE);
     }
     while (true)
@@ -24,6 +26,16 @@ char *shell_read_line(void)
         if (c == EOF || c == '\n')
         {
             buffer[index] = '\0';
+            removeWhiteSpace(buffer);
+            len = strlen(buffer);
+            for (i = 0; i < len; i++)
+            {
+                if (buffer[i] == '#')
+                {
+                    buffer[i] = '\0';
+                    return (buffer);
+                }
+            }
             return (buffer);
         }
         else
@@ -38,11 +50,34 @@ char *shell_read_line(void)
             buffer = realloc(buffer, buffer_size);
             if (!buffer)
             {
-                fprintf(stderr, "ERROR: failed to allocate memory\n");
+                perror("ERROR: failed to allocate memory\n");
                 exit(EXIT_FAILURE);
             }
         }
     }
+}
+
+/**
+ * removeWhiteSpace - it removes unnecessary whitespace
+ * @str: the string that needs to be modified
+ * Return: void
+ */
+void removeWhiteSpace(char *str)
+{
+    char *p1 = str; /* pointer to iterate through the input string */
+    char *p2 = str; /* pointer to write the non-space characters to */
+
+    while (*p1 != '\0')
+    {
+        if (!isspace(*p1))
+        {
+            *p2 = *p1;
+            p2++;
+        }
+        p1++;
+    }
+
+    *p2 = '\0';
 }
 
 /**
@@ -80,15 +115,14 @@ char *_strtok(char *str, const char *delimiter)
 
 /**
  * shell_execute - it executes the command entered
- * 
+ *
  * @args: the argument passed
  * Return: int
  */
 int shell_execute(char **args)
 {
-    pid_t pid, w_pid;
+    pid_t pid;
     int status;
-    int count = 0;
 
     pid = fork();
 

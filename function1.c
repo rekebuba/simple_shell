@@ -37,7 +37,7 @@ char **shell_split_line(char *line)
 
     if (!tokens)
     {
-        fprintf(stderr, "ERROR: failed to allocate memory\n");
+        perror("ERROR: failed to allocate memory\n");
         exit(EXIT_FAILURE);
     }
 
@@ -54,12 +54,13 @@ char **shell_split_line(char *line)
             if (!tokens)
             {
 
-                fprintf(stderr, "ERROR: failed to allocate memory\n");
+                perror("ERROR: failed to allocate memory\n");
                 exit(EXIT_FAILURE);
             }
         }
         token = _strtok(NULL, TOK_DELIM);
     }
     tokens[index] = NULL;
+
     return (tokens);
 }
