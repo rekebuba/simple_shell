@@ -35,7 +35,6 @@ int shell_cd(char **args)
 	if (args[1] == NULL)
 	{
 		chdir("~");
-		dprintf(2, "sus\n");
 	}
 	else
 	{
