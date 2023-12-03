@@ -1,7 +1,5 @@
 #include "main.h"
 
-
-
 /**
  * main -
  *
@@ -21,27 +19,33 @@ int main(int argc, char **argv)
 }
 
 /**
- * Error - 
- * 
- * @param args 
+ * Error -
+ *
+ * @param args
  */
 void Error(char **args)
 {
 	dprintf(2, "%s: not found\n", args[0]);
 }
 
-int exit_command(char **args)
+char *built_in_str[] =
+	{
+		"cd",
+		"exit"};
+
+int shell_cd(char **args)
 {
-	if (strcmp(args[0], "exit") == 0)
-		return (1);
-	return(0);
+	chdir(args[1]);
+	return (1);
 }
 
-int cd_command(char **args)
+int shell_exit(char **args)
 {
-	if (chdir(args[0]) != 0)
-	{
-		dprintf(2, )
-	}
-		return (1);
+	return (1);
 }
+
+int (*built_in_function[])(char **) =
+	{
+		&shell_cd,
+		&shell_exit};
+
