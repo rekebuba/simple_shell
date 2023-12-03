@@ -32,9 +32,17 @@ char *built_in_str[] =
 
 int shell_cd(char **args)
 {
-	if (args[1] == NULL)
+	char *home_dir;
+	if (args[1] == NULL || args[1] == "-")
 	{
-		chdir("~");
+		home_dir = getenv("HOME");
+		if (home_dir != NULL)
+		{
+			if (chdir(home_dir) != 0)
+			{
+				dprintf(2, "cd: can't cd to %s\n", args[1]);
+			}
+		}
 	}
 	else
 	{
@@ -49,7 +57,7 @@ int shell_cd(char **args)
 
 int shell_exit(char **args)
 {
-	return (0);
+	exit (0);
 }
 
 int (*builtin_function[])(char **) =
