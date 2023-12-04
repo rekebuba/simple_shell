@@ -120,8 +120,6 @@ char *_strtok(char *str, const char *delimiter)
  * Return: int
  */
 
-
-
 int shell_execute(char **args)
 {
 	pid_t pid, w_pid;
