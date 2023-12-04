@@ -6,8 +6,8 @@
  */
 void shell_loop(void)
 {
-    char *line;
-    char **args;
+	char *line;
+     	char **args;
     int status;
 
     do
