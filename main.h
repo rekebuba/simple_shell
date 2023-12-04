@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <signal.h>
+#include <errno.h>
+
 
 
 #define BUFFER 1024

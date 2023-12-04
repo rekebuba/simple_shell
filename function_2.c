@@ -119,10 +119,14 @@ char *_strtok(char *str, const char *delimiter)
  * @args: the argument passed
  * Return: int
  */
+
+
+
 int shell_execute(char **args)
 {
-	pid_t pid;
+	pid_t pid, w_pid;
 	int status;
+	static int count = 1;
 
 	pid = fork();
 
@@ -131,6 +135,8 @@ int shell_execute(char **args)
 		/* were in the chilled processor */
 		if (execvp(args[0], args) == -1)
 		{
+			dprintf(2, "hsh: %d: %s: not found\n", count, args[0]);
+			count++;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -144,9 +150,10 @@ int shell_execute(char **args)
 	{
 		/* were in the parent processor */
 		do {
-			waitpid(pid, &status, WUNTRACED);
+			w_pid = waitpid(pid, &status, WUNTRACED);
+			count++;
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-
+	
 	return (1);
 }

@@ -6,9 +6,9 @@
  */
 void shell_loop(void)
 {
-		char *line;
-		char **args;
-		int status;
+	char *line;
+	char **args;
+	int status;
 
 	do {
 		dprintf(1, "$ ");
