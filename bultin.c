@@ -11,8 +11,7 @@ char *built_in_str[] = {"cd", "exit"};
  * it calls the function that is needed
  * 
  */
-int (*builtin_function[])(char **) =
-	{
+int (*builtin_function[])(char **) = {
 		&shell_cd,
 		&shell_exit};
 
