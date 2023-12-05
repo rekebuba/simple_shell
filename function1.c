@@ -9,7 +9,6 @@ void shell_loop(void)
 	char *line;
 	char **args;
 	int status;
-
 	do {
 		dprintf(1, "$ ");
 		line = shell_read_line();
@@ -21,6 +20,15 @@ void shell_loop(void)
 	} while (status);
 }
 
+/**
+ * _signal - handle Ctr+C
+ * @signal: when the Ctrl+c is received
+ * Return: Void
+ */
+void _signal(int signal)
+{
+	dprintf(1, "\n$ ");
+}
 /**
  * shell_split_line - it split the line by specifed delimeter
  * @line: the argument passed

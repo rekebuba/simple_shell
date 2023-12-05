@@ -19,11 +19,17 @@ char *shell_read_line(void)
 		perror("ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
+
 	while (true)
 	{
 		/*read character by character*/
 		c = getchar();
-		if (c == EOF || c == '\n')
+		if (c == EOF)
+		{
+			dprintf(1, "\n");
+			exit(EXIT_FAILURE);
+		}
+		else if (c == '\n')
 		{
 			buffer[index] = '\0';
 			removeWhiteSpace(buffer);
