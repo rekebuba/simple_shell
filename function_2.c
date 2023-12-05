@@ -26,7 +26,8 @@ char *shell_read_line(void)
 		c = getchar();
 		if (c == EOF)
 		{
-			dprintf(1, "\n");
+			printf("\n");
+			fflush(stdout);
 			exit(EXIT_FAILURE);
 		}
 		else if (c == '\n')
@@ -128,7 +129,7 @@ char *_strtok(char *str, const char *delimiter)
 
 int shell_execute(char **args)
 {
-	pid_t pid, w_pid;
+	pid_t pid;
 	int status;
 	static int count = 1;
 
@@ -153,10 +154,10 @@ int shell_execute(char **args)
 	else
 	{
 		/* were in the parent processor */
-		do {
-			w_pid = waitpid(pid, &status, WUNTRACED);
+
+			waitpid(pid, &status, 0);
 			count++;
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+
 	}
 	
 	return (1);

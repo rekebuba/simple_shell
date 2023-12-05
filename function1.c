@@ -10,7 +10,8 @@ void shell_loop(void)
 	char **args;
 	int status;
 	do {
-		dprintf(1, "$ ");
+		printf("$ ");
+		fflush(stdout);
 		line = shell_read_line();
 		args = shell_split_line(line);
 		status = shell_launch(args);
@@ -27,7 +28,9 @@ void shell_loop(void)
  */
 void _signal(int signal)
 {
-	dprintf(1, "\n$ ");
+	(void) signal;
+	printf("\n$ ");
+	fflush(stdout);
 }
 /**
  * shell_split_line - it split the line by specifed delimeter
