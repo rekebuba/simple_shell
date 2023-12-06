@@ -9,7 +9,8 @@ void shell_loop(void)
 	char *line;
 	char **args;
 	int status;
-	do {
+	while (true)
+	{
 		/* printf("$ ");
 		fflush(stdout); */
 		line = shell_read_line();
@@ -18,8 +19,8 @@ void shell_loop(void)
 
 		free(line);
 		free(args);
-	} while (true);
-
+	}
+	(void)status;
 }
 
 /**
@@ -29,8 +30,8 @@ void shell_loop(void)
  */
 void _signal(int signal)
 {
-	(void) signal;
-	printf("\n$ ");
+	(void)signal;
+	printf("\n");
 	fflush(stdout);
 }
 /**

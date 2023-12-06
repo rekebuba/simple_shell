@@ -26,12 +26,12 @@ char *shell_read_line(void)
 		c = getchar();
 		if (c == EOF)
 		{
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		else if (c == '\n')
 		{
 			buffer[index] = '\0';
-			removeWhiteSpace(buffer);
+			/* removeWhiteSpace(buffer); */
 			len = strlen(buffer);
 			for (i = 0; i < len; i++)
 			{
@@ -48,7 +48,7 @@ char *shell_read_line(void)
 			buffer[index] = c;
 		}
 		index++;
-		/* if we have exceeded the buffer, reallocate*/
+		/* if we have exceeded the buffer, reallocate */
 		if (index >= buffer_size)
 		{
 			buffer_size += BUFFER;
@@ -124,7 +124,6 @@ char *_strtok(char *str, const char *delimiter)
  * @args: the argument passed
  * Return: int
  */
-
 int shell_execute(char **args)
 {
 	pid_t pid;
@@ -132,7 +131,6 @@ int shell_execute(char **args)
 	static int count = 1;
 
 	pid = fork();
-
 	if (pid == 0)
 	{
 		/* were in the chilled processor */

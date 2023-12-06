@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	(void) argc;
 	(void) argv;
 	signal(SIGINT, _signal);
+
 	shell_loop();
 
 	return (0);
