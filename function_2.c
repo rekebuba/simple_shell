@@ -26,8 +26,6 @@ char *shell_read_line(void)
 		c = getchar();
 		if (c == EOF)
 		{
-			printf("\n");
-			fflush(stdout);
 			exit(EXIT_FAILURE);
 		}
 		else if (c == '\n')
@@ -140,7 +138,7 @@ int shell_execute(char **args)
 		/* were in the chilled processor */
 		if (execvp(args[0], args) == -1)
 		{
-			dprintf(2, "hsh: %d: %s: not found\n", count, args[0]);
+			dprintf(2, "./hsh: %d: %s: not found\n", count, args[0]);
 			count++;
 			exit(EXIT_FAILURE);
 		}
@@ -154,11 +152,12 @@ int shell_execute(char **args)
 	else
 	{
 		/* were in the parent processor */
-
-			waitpid(pid, &status, 0);
+		do
+		{
+			waitpid(pid, &status, WUNTRACED);
 			count++;
-
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-	
-	return (1);
+
+	return (0);
 }

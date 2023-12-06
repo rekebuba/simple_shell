@@ -10,15 +10,16 @@ void shell_loop(void)
 	char **args;
 	int status;
 	do {
-		printf("$ ");
-		fflush(stdout);
+		/* printf("$ ");
+		fflush(stdout); */
 		line = shell_read_line();
 		args = shell_split_line(line);
 		status = shell_launch(args);
 
 		free(line);
 		free(args);
-	} while (status);
+	} while (true);
+
 }
 
 /**
