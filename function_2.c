@@ -24,14 +24,14 @@ char *shell_read_line(void)
 	{
 		/*read character by character*/
 		c = getchar();
-		if (c == EOF)
+		if (c == EOF || c == '\n')
 		{
-			exit(EXIT_SUCCESS);
-		}
-		else if (c == '\n')
-		{
+			if (c == EOF)
+			{
+				exit(EXIT_SUCCESS);
+			}
 			buffer[index] = '\0';
-			/* removeWhiteSpace(buffer); */
+			removeWhiteSpace(buffer);
 			len = strlen(buffer);
 			for (i = 0; i < len; i++)
 			{
@@ -69,20 +69,26 @@ char *shell_read_line(void)
  */
 void removeWhiteSpace(char *str)
 {
-	char *p1 = str; /* pointer to iterate through the input string */
-	char *p2 = str; /* pointer to write the non-space characters to */
+	char* p1 = str; /* pointer to iterate through the input string */
+    char* p2 = str; /* pointer to write the non-space characters to */
+    bool space = false; /* flag to track consecutive spaces */
 
-	while (*p1 != '\0')
-	{
-		if (!isspace(*p1))
-		{
-			*p2 = *p1;
-			p2++;
-		}
-		p1++;
-	}
+    while (*p1 != '\0') {
+        if (isspace(*p1)) {
+            if (!space) {
+                *p2 = *p1;
+                p2++;
+                space = true;
+            }
+        } else {
+            *p2 = *p1;
+            p2++;
+            space = false;
+        }
+        p1++;
+    }
 
-	*p2 = '\0';
+    *p2 = '\0'; /* Null-terminate the modified string */
 }
 
 /**
@@ -129,8 +135,10 @@ int shell_execute(char **args)
 	pid_t pid;
 	int status;
 	static int count = 1;
-
+	if (strcmp(args[0], "\0") == 0)
+		return (0);
 	pid = fork();
+	
 	if (pid == 0)
 	{
 		/* were in the chilled processor */
