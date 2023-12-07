@@ -42,7 +42,7 @@ int shell_cd(char **args)
 		{
 			if (chdir(home_dir) != 0)
 			{
-				dprintf(2, "cd: can't cd to %s\n", args[1]);
+				dprintf(2, "./hsh: 1: cd: can't cd to %s\n", args[1]);
 			}
 		}
 	}
@@ -50,7 +50,7 @@ int shell_cd(char **args)
 	{
 		if (chdir(args[1]) != 0)
 		{
-			dprintf(2, "cd: can't cd to %s\n", args[1]);
+			dprintf(2, "./hsh: 1: cd: can't cd to %s\n", args[1]);
 		}
 	}
 
@@ -74,7 +74,7 @@ int shell_exit(char **args)
 		{
 			if (!isdigit(args[1][i]))
 			{
-				dprintf(2, "exit: Illegal number: %s\n", args[1]);
+				dprintf(2, "./hsh: 1: exit: Illegal number: %s\n", args[1]);
 				exit(EXIT_SUCCESS);
 			}
 		}
