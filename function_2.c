@@ -36,6 +36,7 @@ char *shell_read_line(void)
 				if (buffer[i] == '#')
 				{
 					buffer[i] = '\0';
+					buffer = removeWhiteSpace(buffer);
 					return (buffer);
 				}
 			}
