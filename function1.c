@@ -14,6 +14,7 @@ void shell_loop(void)
 		/* printf("$ ");
 		fflush(stdout); */
 		line = shell_read_line();
+		
 		args = shell_split_line(line);
 		status = shell_launch(args);
 
@@ -51,7 +52,7 @@ char **shell_split_line(char *line)
 		perror("ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
-
+	
 	token = _strtok(line, TOK_DELIM);
 	while (token != NULL)
 	{
