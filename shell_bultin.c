@@ -9,15 +9,15 @@ char *built_in_str[] = {"cd", "exit"};
 /**
  * builtin_function - if the first argument is found for builtin commands
  * it calls the function that is needed
- * 
+ *
  */
 int (*builtin_function[])(char **) = {
-		&shell_cd,
-		&shell_exit};
+	&shell_cd,
+	&shell_exit};
 
 /**
  * number_of_builtin - to fined the number of commands
- * 
+ *
  * Return: int
  */
 int number_of_builtin(void)
@@ -28,7 +28,7 @@ int number_of_builtin(void)
 /* bellow are the required command */
 /**
  * shell_cd - the cd command
- * 
+ *
  * @args: the argument passed
  * Return: int
  */
@@ -59,7 +59,7 @@ int shell_cd(char **args)
 
 /**
  * shell_exit - the exit command
- * 
+ *
  * @args: the argument passed
  * return: int
  */
@@ -84,7 +84,7 @@ int shell_exit(char **args)
 
 /**
  * shell_launch - all the builtin are executed inside this func
- * 
+ *
  * @args: the argument passed
  * Return: int
  */

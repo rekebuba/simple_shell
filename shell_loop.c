@@ -14,7 +14,6 @@ void shell_loop(void)
 		/* printf("$ ");
 		fflush(stdout); */
 		line = shell_read_line();
-		
 		args = shell_split_line(line);
 		status = shell_launch(args);
 

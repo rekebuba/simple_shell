@@ -8,25 +8,19 @@
 char *shell_read_line(void)
 {
 	char *buffer = malloc(BUFFER * sizeof(char));
-	int index = 0;
 	int buffer_size = BUFFER;
-	int c;
-	int i;
-	int len;
-
+	int character, i, len, index = 0;
 	if (!buffer)
 	{
 		perror("ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
-
 	while (true)
 	{
-		/*read character by character*/
-		c = getchar();
-		if (c == EOF)
+		character = getchar();/*read character by character*/
+		if (character == EOF)
 			exit(EXIT_SUCCESS);
-		if (c == EOF || c == '\n')
+		if (character == EOF || character == '\n')
 		{
 			buffer[index] = '\0';
 			buffer = removeWhiteSpace(buffer);
@@ -43,12 +37,9 @@ char *shell_read_line(void)
 			return (buffer);
 		}
 		else
-		{
-			buffer[index] = c;
-		}
+			buffer[index] = character;
 		index++;
-		/* if we have exceeded the buffer, reallocate */
-		if (index >= buffer_size)
+		if (index >= buffer_size)/* if we have exceeded the buffer, reallocate */
 		{
 			buffer_size += BUFFER;
 			buffer = realloc(buffer, buffer_size);
