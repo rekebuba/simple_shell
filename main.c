@@ -17,3 +17,15 @@ int main(int argc, char **argv)
 
 	return (0);
 }
+
+/**
+ * _signal - handle Ctr+C
+ * @signal: when the Ctrl+c is received
+ * Return: Void
+ */
+void _signal(int signal)
+{
+	(void)signal;
+	printf("\n");
+	fflush(stdout);
+}

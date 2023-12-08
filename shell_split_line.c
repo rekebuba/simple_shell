@@ -1,40 +1,5 @@
 #include "main.h"
 
-/*
- * shell_loop - uses to prompt the user
- * Return: void
- */
-void shell_loop(void)
-{
-	char *line;
-	char **args;
-	int status;
-	while (true)
-	{
-		/* printf("$ ");
-		fflush(stdout); */
-		line = shell_read_line();
-		
-		args = shell_split_line(line);
-		status = shell_launch(args);
-
-		free(line);
-		free(args);
-	}
-	(void)status;
-}
-
-/**
- * _signal - handle Ctr+C
- * @signal: when the Ctrl+c is received
- * Return: Void
- */
-void _signal(int signal)
-{
-	(void)signal;
-	printf("\n");
-	fflush(stdout);
-}
 /**
  * shell_split_line - it split the line by specifed delimeter
  * @line: the argument passed
@@ -75,4 +40,4 @@ char **shell_split_line(char *line)
 	tokens[index] = NULL;
 
 	return (tokens);
-}
+
