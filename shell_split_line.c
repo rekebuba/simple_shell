@@ -17,7 +17,7 @@ char **shell_split_line(char *line)
 		perror("ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
-	
+
 	token = _strtok(line, TOK_DELIM);
 	while (token != NULL)
 	{
