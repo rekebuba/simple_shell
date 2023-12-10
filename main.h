@@ -29,6 +29,6 @@ void _signal(int signal);
 
 char *removeWhiteSpace(char *str);
 
-
+char **command(char *arg);
 
 #endif
