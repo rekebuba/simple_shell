@@ -11,14 +11,17 @@ char *_strtok(char *str, const char *delimiter)
 {
 	static char *buffer = NULL;
 	char *token;
+
 	if (str != NULL)
 	{
 		buffer = str;
 	}
+
 	if (buffer == NULL)
 	{
 		return (NULL);
 	}
+
 	token = buffer;
 	buffer += strcspn(buffer, delimiter);
 	if (*buffer != '\0')
@@ -30,5 +33,6 @@ char *_strtok(char *str, const char *delimiter)
 	{
 		buffer = NULL;
 	}
+
 	return (token);
 }
