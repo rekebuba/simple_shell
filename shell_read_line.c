@@ -23,14 +23,14 @@ char *shell_read_line(void)
 		if (character == EOF || character == '\n')
 		{
 			buffer[index] = '\0';
-			buffer = removeWhiteSpace(buffer);
+			removeWhiteSpace(buffer);
 			len = strlen(buffer);
 			for (i = 0; i < len; i++)
 			{
 				if (buffer[i] == '#')
 				{
 					buffer[i] = '\0';
-					buffer = removeWhiteSpace(buffer);
+					removeWhiteSpace(buffer);
 					return (buffer);
 				}
 			}

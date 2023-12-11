@@ -4,42 +4,41 @@
  * @str: the string that needs to be modified
  * Return: void
  */
-char *removeWhiteSpace(char *str)
+void removeWhiteSpace(char *str)
 {
-	char *p1 = str;		/* pointer to iterate through the input string */
-	/* pointer to write the non-space characters to */
-	char *new = malloc(BUFFER * sizeof(char));
-	int index = 0;
-	bool space = false; /* flag to track consecutive spaces */
+	char *p1 = str; /* pointer to iterate through the input string */
+    char *p2 = str; /* pointer to write the non-space characters to */
+    bool space = false;
 
-	while (isspace(*p1))
+    while (isspace(*p1))
 	{
 		p1++;
 	}
 
-	while (*p1 != '\0')
-	{
-		if (isspace(*p1))
-		{
-			if (!space)
-			{
-				new[index++] = *p1;
-				space = true;
-			}
-		}
+    while (*p1 != '\0')
+    {
+        if (isspace(*p1))
+        {
+            if (!space)
+            {
+                *p2 = *p1;
+                p2++;
+                space = true;
+            }
+        } 
 		else
-		{
-			new[index++] = *p1;
-			space = false;
-		}
-		p1++;
+        {
+            *p2 = *p1;
+            p2++;
+            space = false;
+        }
+        p1++;
+    }
+
+    if (isspace(*(p2 - 1)))
+    {
+        *(p2 - 1) = '\0';
 	}
 
-	if (isspace(new[index - 1]))
-	{
-		new[index - 1] = '\0';
-	}
-
-	new[index] = '\0'; /* Null-terminate the modified string */
-	return (new);
+    *p2 = '\0';
 }

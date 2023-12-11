@@ -27,7 +27,7 @@ int shell_exit(char **args);
 
 void _signal(int signal);
 
-char *removeWhiteSpace(char *str);
+void removeWhiteSpace(char *str);
 
 char **command(char *arg);
 
