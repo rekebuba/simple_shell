@@ -31,4 +31,7 @@ void removeWhiteSpace(char *str);
 
 char **command(char *arg);
 
+int _space(int c);
+size_t _strlen(const char *str);
+
 #endif

@@ -17,14 +17,14 @@ char *shell_read_line(void)
 	}
 	while (true)
 	{
-		character = getchar();/*read character by character*/
+		character = getchar();
 		if (character == EOF)
 			exit(EXIT_SUCCESS);
 		if (character == EOF || character == '\n')
 		{
 			buffer[index] = '\0';
 			removeWhiteSpace(buffer);
-			len = strlen(buffer);
+			len = _strlen(buffer);
 			for (i = 0; i < len; i++)
 			{
 				if (buffer[i] == '#')
