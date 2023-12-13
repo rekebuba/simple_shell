@@ -13,8 +13,11 @@ void shell_loop(void)
 	int i;
 	while (true)
 	{
-		printf("$ ");
-		fflush(stdout);
+		if (isatty(STDIN_FILENO))
+		{
+			printf("$ ");
+			fflush(stdout);
+		}
 		line = shell_read_line();
 		if (strchr(line, ';') != NULL)
 		{
