@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
 	shell_loop();
 
-	exit(EXIT_SUCCESS);
+	return(0);
 }
 
 /**
@@ -29,4 +29,3 @@ void _signal(int signal)
 	printf("\n$ ");
 	fflush(stdout);
 }
-
