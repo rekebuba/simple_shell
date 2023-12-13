@@ -11,6 +11,7 @@ void shell_loop(void)
 	char **cmd;
 	int status;
 	int i;
+
 	while (true)
 	{
 		if (isatty(STDIN_FILENO))
@@ -42,6 +43,12 @@ void shell_loop(void)
 	(void)status;
 }
 
+/**
+ * command - command
+ * 
+ * @arg: the string passed
+ * Return: char**
+ */
 char **command(char *arg)
 {
 	char **tokens = malloc(BUFFER * sizeof(char *));
@@ -63,4 +70,3 @@ char **command(char *arg)
 	tokens[index] = NULL;
 	return (tokens);
 }
-
