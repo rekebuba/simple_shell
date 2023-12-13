@@ -8,7 +8,8 @@
  */
 char *char_in_str(char *s, char c)
 {
-	do {
+	do
+	{
 		if (*s == c)
 			return (s);
 	} while (*s++ != '\0');
@@ -18,9 +19,8 @@ char *char_in_str(char *s, char c)
 
 /**
  * _system - execute a command
- * 
- * @command: string passed 
- * Return: int 
+ * @command: string passed
+ * Return: int
  */
 int _system(const char *command)
 {
@@ -38,7 +38,7 @@ int _system(const char *command)
 	else if (pid == 0)
 	{
 		execl("/bin/sh", "sh", "-c", command, (char *)NULL);
-		_exit(127); 
+		_exit(127);
 	}
 	else
 	{
@@ -56,11 +56,10 @@ int _system(const char *command)
 }
 
 /**
- * _strcmp - compare two strings 
- * 
+ * _strcmp - compare two strings
  * @str1: string 1
  * @str2: string 2
- * Return: int 
+ * Return: int
  */
 int _strcmp(const char *str1, const char *str2)
 {
@@ -75,16 +74,15 @@ int _strcmp(const char *str1, const char *str2)
 
 /**
  * _strcspn - _strcspn
- * 
  * @str1: string 1
  * @str2: string 2
- * Return: size_t 
+ * Return: size_t
  */
 size_t _strcspn(const char *str1, const char *str2)
 {
 	const char *p1, *p2;
 	size_t count = 0;
-	
+
 	for (p1 = str1; *p1 != '\0'; p1++)
 	{
 		for (p2 = str2; *p2 != '\0'; p2++)
@@ -92,9 +90,9 @@ size_t _strcspn(const char *str1, const char *str2)
 			if (*p1 == *p2)
 				return (count);
 		}
-		
+
 		count++;
 	}
-	
+
 	return (count);
 }
