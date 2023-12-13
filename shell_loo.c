@@ -40,7 +40,6 @@ void shell_loop(void)
 		}
 		free(line);
 	}
-	(void)status;
 }
 
 /**
