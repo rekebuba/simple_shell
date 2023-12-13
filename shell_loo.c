@@ -13,8 +13,7 @@ void shell_loop(void)
 	int status;
 	int i;
 
-	while (true)
-	{
+	do {
 		if (isatty(STDIN_FILENO))
 		{
 			printf("$ ");
@@ -39,8 +38,7 @@ void shell_loop(void)
 			free(args);
 		}
 		free(line);
-	}
-	(void) status;
+	} while (status);
 }
 
 /**

@@ -30,7 +30,7 @@ int shell_cd(char **args)
 		}
 	}
 
-	return (0);
+	return (1);
 }
 
 /**
