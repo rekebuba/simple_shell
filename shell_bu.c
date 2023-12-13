@@ -43,6 +43,7 @@ int shell_exit(char **args)
 {
 	int i;
 	int len;
+
 	if (args[1] != NULL)
 	{
 		len = _strlen(args[1]);
@@ -67,10 +68,11 @@ int shell_exit(char **args)
 int shell_launch(char **args)
 {
 	int i;
-
 	char *built_in_str[] = {"cd", "exit"};
+
 	int (*builtin_function[])(char **) = {&shell_cd, &shell_exit};
 	int number_of_builtin = sizeof(built_in_str) / sizeof(char *);
+
 	for (i = 0; i < number_of_builtin; i++)
 	{
 		if (_strcmp(args[0], built_in_str[i]) == 0)
@@ -81,4 +83,3 @@ int shell_launch(char **args)
 	/* if no argument is found */
 	return (shell_execute(args));
 }
-
