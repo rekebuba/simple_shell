@@ -27,7 +27,7 @@ char *shell_read_line(void)
 			printf("\n");
 			fflush(stdout);
 		}
-		exit(EXIT_SUCCESS);
+		exit(1);
 	}
 	buffer[index] = '\0';
 	removeWhiteSpace(buffer);
