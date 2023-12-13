@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
+
 #include <sys/wait.h>
 #include <unistd.h>
 #include <ctype.h>
@@ -38,4 +38,6 @@ size_t _strlen(const char *str);
 char *char_in_str(char *s, char c);
 int _system(const char *command);
 int _strcmp(const char *str1, const char *str2);
+size_t _strcspn(const char *str1, const char *str2);
+
 #endif

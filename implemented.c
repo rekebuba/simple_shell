@@ -59,3 +59,22 @@ int _strcmp(const char *str1, const char *str2)
 
     return *(unsigned char *)str1 - *(unsigned char *)str2;
 }
+
+size_t _strcspn(const char *str1, const char *str2)
+{
+    const char *p1, *p2;
+    size_t count = 0;
+    
+    for (p1 = str1; *p1 != '\0'; p1++)
+    {
+        for (p2 = str2; *p2 != '\0'; p2++)
+        {
+            if (*p1 == *p2)
+                return count;
+        }
+        
+        count++;
+    }
+    
+    return count;
+}

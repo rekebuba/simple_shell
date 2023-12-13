@@ -23,7 +23,7 @@ char *_strtok(char *str, const char *delimiter)
 	}
 
 	token = buffer;
-	buffer += strcspn(buffer, delimiter);
+	buffer += _strcspn(buffer, delimiter);
 	if (*buffer != '\0')
 	{
 		*buffer = '\0';
