@@ -7,39 +7,39 @@
  */
 char *shell_read_line(void)
 {
-    char *buffer = malloc(BUFFER * sizeof(char));
-    int character, index = 0;
+	char *buffer = malloc(BUFFER * sizeof(char));
+	int character, index = 0;
 	int i;
 
-    if (!buffer)
-    {
-        perror("ERROR: Failed to allocate memory\n");
-        exit(EXIT_FAILURE);
-    }
-    while ((character = getchar()) != EOF && character != '\n')
-    {
-        buffer[index++] = character;
-    }
-    if (character == EOF)
-    {
-        if (isatty(STDIN_FILENO))
-        {
-            printf("\n");
-            fflush(stdout);
-        }
-        exit(EXIT_SUCCESS);
-    }
-    buffer[index] = '\0';
-    removeWhiteSpace(buffer);
+	if (!buffer)
+	{
+		perror("ERROR: Failed to allocate memory\n");
+		exit(EXIT_FAILURE);
+	}
+	while ((character = getchar()) != EOF && character != '\n')
+	{
+		buffer[index++] = character;
+	}
+	if (character == EOF)
+	{
+		if (isatty(STDIN_FILENO))
+		{
+			printf("\n");
+			fflush(stdout);
+		}
+		exit(EXIT_SUCCESS);
+	}
+	buffer[index] = '\0';
+	removeWhiteSpace(buffer);
 
-    for (i = 0; buffer[i]; i++)
-    {
-        if (buffer[i] == '#')
-        {
-            buffer[i] = '\0';
-            removeWhiteSpace(buffer);
-            return (buffer);
-        }
-    }
-    return (buffer);
+	for (i = 0; buffer[i]; i++)
+	{
+		if (buffer[i] == '#')
+		{
+			buffer[i] = '\0';
+			removeWhiteSpace(buffer);
+			return (buffer);
+		}
+	}
+	return (buffer);
 }
