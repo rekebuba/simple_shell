@@ -9,10 +9,8 @@ int shell_loop(void)
 {
 	ssize_t read;
 	char *line = NULL;
-	char **args;
-	char **cmd;
-	int status;
-	int i;
+	char **args, **cmd;
+	int status, i;
 	size_t len = 0;
 
 	do {
@@ -25,9 +23,7 @@ int shell_loop(void)
 		if (read == -1)
 		{
 			if (isatty(STDIN_FILENO))
-			{
 				printf("\n");
-			}
 			break;
 		}
 		line[strcspn(line, "\n")] = '\0';
@@ -49,13 +45,10 @@ int shell_loop(void)
 			status = shell_launch(args);
 			free(args);
 		}
-
 	} while (status == 0);
 	free(line);
 	if (status == 1)
-	{
 		return (127);
-	}
 	return (status);
 }
 
