@@ -52,11 +52,11 @@ int shell_exit(char **args)
 			if (!isdigit(args[1][i]))
 			{
 				dprintf(2, "./hsh: 1: exit: Illegal number: %s\n", args[1]);
-				exit(EXIT_SUCCESS);
+				exit(98);
 			}
 		}
 	}
-	exit(EXIT_SUCCESS);
+	exit(98);
 }
 
 /**
