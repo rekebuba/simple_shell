@@ -1,6 +1,32 @@
 #include "main.h"
 
-/* bellow are the required command */
+/**
+ * get_home_directory - Get the home directory object
+ * 
+ * Return: char*
+ */
+char *get_home_directory()
+{
+	char *home_dir = getenv("HOME");
+	return home_dir != NULL ? home_dir : "";
+}
+
+/**
+ * update_pwd_env_variable - update_pwd_env_variable
+ */
+void update_pwd_env_variable()
+{
+	char cwd[1024];
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
+		setenv("PWD", cwd, 1);
+	}
+	else
+	{
+		perror("getcwd");
+	}
+}
+
 /**
  * shell_cd - the cd command
  *
@@ -8,6 +34,53 @@
  * Return: int
  */
 int shell_cd(char **args)
+{
+	if (args[1] == NULL || strcmp(args[1], "~") == 0)
+	{
+		char *home_dir = get_home_directory();
+		if (chdir(home_dir) != 0)
+		{
+			perror("cd");
+		}
+	}
+	else if (strcmp(args[1], "-") == 0)
+	{
+		char *previous_dir = getenv("OLDPWD");
+		if (previous_dir != NULL)
+		{
+			if (chdir(previous_dir) != 0)
+			{
+				perror("cd");
+			}
+			else
+			{
+				printf("%s\n", previous_dir);
+				setenv("OLDPWD", get_home_directory(), 1);
+				update_pwd_env_variable();
+			}
+		}
+		else
+		{
+			printf("cd: OLDPWD not set\n");
+		}
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+		{
+			perror("cd");
+		}
+		else
+		{
+			setenv("OLDPWD", get_home_directory(), 1);
+			update_pwd_env_variable();
+		}
+	}
+
+	return 0;
+}
+
+/*int shell_cd(char **args)
 {
 	char *home_dir;
 
@@ -31,7 +104,7 @@ int shell_cd(char **args)
 	}
 
 	return (0);
-}
+}*/
 
 /**
  * shell_exit - the exit command
