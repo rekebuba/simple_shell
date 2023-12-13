@@ -9,7 +9,7 @@
  */
 char *_strtok(char *str, const char *delimiter)
 {
-	static char *buffer = NULL;
+	static char *buffer;
 	char *token;
 
 	if (str != NULL)
@@ -36,4 +36,3 @@ char *_strtok(char *str, const char *delimiter)
 
 	return (token);
 }
-
