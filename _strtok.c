@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _strtok - used to tokenize a string besed on specified delimeter
+ * _strtok - used to tokenize a string besed on specified delimete
  *
  * @str: the string that needs to be tokenize
  * @delimiter: delimiters
