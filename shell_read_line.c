@@ -8,13 +8,13 @@
 char *shell_read_line(void)
 {
 	char *buffer = malloc(BUFFER * sizeof(char));
-	int buffer_size = BUFFER;
 	int character, i, len, index = 0;
 	if (!buffer)
 	{
 		perror("ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
+	
 	while (true)
 	{
 		character = getchar();
@@ -46,15 +46,5 @@ char *shell_read_line(void)
 		else
 			buffer[index] = character;
 		index++;
-		if (index >= buffer_size) /* if we have exceeded the buffer, reallocate */
-		{
-			buffer_size += BUFFER;
-			buffer = realloc(buffer, buffer_size);
-			if (!buffer)
-			{
-				perror("ERROR: failed to allocate memory\n");
-				exit(EXIT_FAILURE);
-			}
-		}
 	}
 }

@@ -11,6 +11,7 @@ void shell_loop(void)
 	char **cmd;
 	int status;
 	int i;
+	
 	while (true)
 	{
 		if (isatty(STDIN_FILENO))
@@ -47,6 +48,7 @@ char **command(char *arg)
 	char **tokens = malloc(BUFFER * sizeof(char *));
 	char *token;
 	int index = 0;
+	
 	if (!tokens)
 	{
 		dprintf(2, "error allocating memory");
