@@ -7,40 +7,40 @@
 void removeWhiteSpace(char *str)
 {
 	char *p1 = str; /* pointer to iterate through the input string */
-    char *p2 = str; /* pointer to write the non-space characters to */
-    bool space = false;
+	char *p2 = str; /* pointer to write the non-space characters to */
+	bool space = false;
 
-    while (_space(*p1))
+	while (_space(*p1))
 	{
 		p1++;
 	}
 
-    while (*p1 != '\0')
-    {
-        if (_space(*p1))
-        {
-            if (!space)
-            {
-                *p2 = *p1;
-                p2++;
-                space = true;
-            }
-        } 
+	while (*p1 != '\0')
+	{
+		if (_space(*p1))
+		{
+			if (!space)
+			{
+				*p2 = *p1;
+				p2++;
+				space = true;
+			}
+		} 
 		else
-        {
-            *p2 = *p1;
-            p2++;
-            space = false;
-        }
-        p1++;
-    }
-
-    if (_space(*(p2 - 1)))
-    {
-        *(p2 - 1) = '\0';
+		{
+			*p2 = *p1;
+			p2++;
+			space = false;
+		}
+		p1++;
 	}
 
-    *p2 = '\0';
+	if (_space(*(p2 - 1)))
+	{
+		*(p2 - 1) = '\0';
+	}
+
+	*p2 = '\0';
 }
 
 /**
@@ -51,5 +51,5 @@ void removeWhiteSpace(char *str)
  */
 int _space(int c)
 {
-    return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
 }
