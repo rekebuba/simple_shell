@@ -10,10 +10,11 @@ int shell_loop(void)
 	ssize_t read;
 	char *line = NULL;
 	char **args, **cmd;
-	int status, i;
+	int status, i, j;
 	size_t len = 0;
 
-	do {
+	do
+	{
 		if (isatty(STDIN_FILENO))
 		{
 			printf("$ ");
@@ -34,7 +35,11 @@ int shell_loop(void)
 			i = 0;
 			while (cmd[i] != NULL)
 			{
-				_system(cmd[i]);
+				j = _system(cmd[i]);
+				if (!isatty(STDIN_FILENO) && j != 0)
+				{
+					return (j);
+				}
 				i++;
 			}
 			free(cmd);
