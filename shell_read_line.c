@@ -15,7 +15,6 @@ char *shell_read_line(void)
 		perror("ERROR: failed to allocate memory\n");
 		exit(EXIT_FAILURE);
 	}
-	
 	while (true)
 	{
 		character = getchar();
