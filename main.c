@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
 	shell_loop();
 
-	exit (EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
 
 /**

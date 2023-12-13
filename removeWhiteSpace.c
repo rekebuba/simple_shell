@@ -51,5 +51,6 @@ void removeWhiteSpace(char *str)
  */
 int _space(int c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v');
+	return (c == ' ' || c == '\t' || c == '\n'
+			|| c == '\r' || c == '\f' || c == '\v');
 }

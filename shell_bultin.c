@@ -10,6 +10,7 @@
 int shell_cd(char **args)
 {
 	char *home_dir;
+
 	if (args[1] == NULL || _strcmp(args[1], "-") == 0)
 	{
 		home_dir = getenv("HOME");
@@ -67,6 +68,7 @@ int shell_exit(char **args)
 int shell_launch(char **args)
 {
 	int i;
+
 	char *built_in_str[] = {"cd", "exit"};
 	int (*builtin_function[])(char **) = {&shell_cd, &shell_exit};
 	

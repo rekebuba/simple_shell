@@ -9,6 +9,7 @@ char *shell_read_line(void)
 {
 	char *buffer = malloc(BUFFER * sizeof(char));
 	int character, i, len, index = 0;
+
 	if (!buffer)
 	{
 		perror("ERROR: failed to allocate memory\n");

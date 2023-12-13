@@ -28,12 +28,12 @@ int _system(const char *command)
 	int status;
 
 	if (command == NULL)
-		return -1;
+		return (-1);
 
 	pid = fork();
 	if (pid < 0)
 	{
-		return -1;
+		return (-1);
 	}
 	else if (pid == 0)
 	{
@@ -90,7 +90,7 @@ size_t _strcspn(const char *str1, const char *str2)
 		for (p2 = str2; *p2 != '\0'; p2++)
 		{
 			if (*p1 == *p2)
-				return count;
+				return (count);
 		}
 		
 		count++;
