@@ -31,15 +31,14 @@ void shell_loop(void)
 				i++;
 			}
 			free(cmd);
-			free(line);
 		}
 		else
 		{
 			args = shell_split_line(line);
 			status = shell_launch(args);
-			free(line);
 			free(args);
 		}
+		free(line);
 	}
 	(void)status;
 }
