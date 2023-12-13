@@ -2,8 +2,8 @@
 
 /**
  * is_comment - it checks the # character
- *
- * Return: char*
+ * @line: the string passed
+ * Return: void
  */
 void is_comment(char *line)
 {
