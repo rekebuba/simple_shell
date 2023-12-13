@@ -10,8 +10,7 @@
 ssize_t get_line(char **line_ptr, size_t *n, FILE *stream)
 {
 	size_t len = 0;
-	char *line = NULL;
-	char *temp;
+	char *temp, *line = NULL;
 
 	if (line_ptr == NULL || n == NULL)
 		return (-1);
