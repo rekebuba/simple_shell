@@ -26,6 +26,6 @@ int main(int argc, char **argv)
 void _signal(int signal)
 {
 	(void)signal;
-	printf("\n");
+	printf("\n$ ");
 	fflush(stdout);
 }

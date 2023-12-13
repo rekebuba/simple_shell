@@ -11,7 +11,7 @@ int shell_execute(char **args)
 	pid_t pid;
 	int status;
 	static int count = 1;
-	if (strcmp(args[0], "\0") == 0)
+	if (_strcmp(args[0], "\0") == 0)
 		return (0);
 	pid = fork();
 

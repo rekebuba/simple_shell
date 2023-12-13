@@ -19,7 +19,11 @@ char *shell_read_line(void)
 	{
 		character = getchar();
 		if (character == EOF)
+		{
+			printf("\n");
+			fflush(stdout);
 			exit(EXIT_SUCCESS);
+		}
 		if (character == EOF || character == '\n')
 		{
 			buffer[index] = '\0';

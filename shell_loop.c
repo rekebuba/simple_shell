@@ -19,13 +19,13 @@ void shell_loop(void)
 			fflush(stdout);
 		}
 		line = shell_read_line();
-		if (strchr(line, ';') != NULL)
+		if (char_in_str(line, ';') != NULL)
 		{
 			cmd = command(line);
 			i = 0;
 			while (cmd[i] != NULL)
 			{
-				system(cmd[i]);
+				_system(cmd[i]);
 				i++;
 			}
 			free(cmd);

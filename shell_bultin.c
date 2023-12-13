@@ -35,7 +35,7 @@ int number_of_builtin(void)
 int shell_cd(char **args)
 {
 	char *home_dir;
-	if (args[1] == NULL || strcmp(args[1], "-") == 0)
+	if (args[1] == NULL || _strcmp(args[1], "-") == 0)
 	{
 		home_dir = getenv("HOME");
 		if (home_dir != NULL)
@@ -93,7 +93,7 @@ int shell_launch(char **args)
 	int i;
 	for (i = 0; i < number_of_builtin(); i++)
 	{
-		if (strcmp(args[0], built_in_str[i]) == 0)
+		if (_strcmp(args[0], built_in_str[i]) == 0)
 		{
 			return (builtin_function[i](args));
 		}

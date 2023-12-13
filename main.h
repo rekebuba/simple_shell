@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <signal.h>
+#include <errno.h>
 
 
 
@@ -34,4 +35,7 @@ char **command(char *arg);
 int _space(int c);
 size_t _strlen(const char *str);
 
+char *char_in_str(char *s, char c);
+int _system(const char *command);
+int _strcmp(const char *str1, const char *str2);
 #endif
