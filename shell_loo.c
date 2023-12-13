@@ -2,6 +2,7 @@
 
 /*
  * shell_loop - uses to prompt the user
+ * @void: void
  * Return: void
  */
 void shell_loop(void)
@@ -45,7 +46,6 @@ void shell_loop(void)
 
 /**
  * command - command
- * 
  * @arg: the string passed
  * Return: char**
  */
