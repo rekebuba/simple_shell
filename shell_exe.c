@@ -40,7 +40,10 @@ int shell_execute(char **args)
 			count++;
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+	if (!isatty(STDIN_FILENO))
+	{
+		return (WEXITSTATUS(status));
+	}
 
-	return (1);
+	return (0);
 }
-

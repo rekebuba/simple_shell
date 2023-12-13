@@ -4,6 +4,10 @@
         "string.h": "c",
         "wait.h": "c",
         "*.ac": "c",
-        "main.h": "c"
-    }
+        "main.h": "c",
+        "fcntl.h": "c"
+    },
+    "cSpell.words": [
+        "hastag"
+    ]
 }

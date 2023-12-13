@@ -1,45 +1,20 @@
 #include "main.h"
 
 /**
- * shell_read_line - it reads a line imputed bu the user
+ * is_comment - it checks the # character
  *
  * Return: char*
  */
-char *shell_read_line(void)
+void is_comment(char *line)
 {
-	char *buffer = malloc(BUFFER * sizeof(char));
-	int character, index = 0;
 	int i;
-
-	if (!buffer)
+	removeWhiteSpace(line);
+	for (i = 0; line[i]; i++)
 	{
-		perror("ERROR: Failed to allocate memory\n");
-		exit(EXIT_FAILURE);
-	}
-	while ((character = getchar()) != EOF && character != '\n')
-	{
-		buffer[index++] = character;
-	}
-	if (character == EOF)
-	{
-		if (isatty(STDIN_FILENO))
+		if (line[i] == '#')
 		{
-			printf("\n");
-			fflush(stdout);
-		}
-		exit(EXIT_SUCCESS);
-	}
-	buffer[index] = '\0';
-	removeWhiteSpace(buffer);
-
-	for (i = 0; buffer[i]; i++)
-	{
-		if (buffer[i] == '#')
-		{
-			buffer[i] = '\0';
-			removeWhiteSpace(buffer);
-			return (buffer);
+			line[i] = '\0';
+			removeWhiteSpace(line);
 		}
 	}
-	return (buffer);
 }

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <ctype.h>
@@ -16,9 +16,9 @@
 #define BUFFER 1024
 #define TOK_DELIM " \t\r\n\a\"" /* the delimeter used to tokenize*/
 
-void shell_loop(void);
+int shell_loop(void);
 char **shell_split_line(char *line);
-char *shell_read_line(void);
+void is_comment(char *);
 char *_strtok(char *str, const char *delimiter);
 int shell_execute(char **args);
 
@@ -39,5 +39,7 @@ char *char_in_str(char *s, char c);
 int _system(const char *command);
 int _strcmp(const char *str1, const char *str2);
 size_t _strcspn(const char *str1, const char *str2);
+
+ssize_t get_line(char **line_ptr, size_t *n, FILE *stream);
 
 #endif

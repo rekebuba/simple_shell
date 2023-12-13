@@ -3,15 +3,17 @@
 /*
  * shell_loop - uses to prompt the user
  * @void: void
- * Return: void
+ * Return: int
  */
-void shell_loop(void)
+int shell_loop(void)
 {
-	char *line;
+	ssize_t read;
+	char *line = NULL;
 	char **args;
 	char **cmd;
 	int status;
 	int i;
+	size_t len = 0;
 
 	do {
 		if (isatty(STDIN_FILENO))
@@ -19,7 +21,17 @@ void shell_loop(void)
 			printf("$ ");
 			fflush(stdout);
 		}
-		line = shell_read_line();
+		read = get_line(&line, &len, stdin);
+		if (read == -1)
+		{
+			if (isatty(STDIN_FILENO))
+			{
+				printf("\n");
+			}
+			break;
+		}
+		line[strcspn(line, "\n")] = '\0';
+		is_comment(line);
 		if (char_in_str(line, ';') != NULL)
 		{
 			cmd = command(line);
@@ -37,8 +49,14 @@ void shell_loop(void)
 			status = shell_launch(args);
 			free(args);
 		}
-		free(line);
-	} while (status);
+
+	} while (status == 0);
+	free(line);
+	if (status == 1)
+	{
+		return (127);
+	}
+	return (status);
 }
 
 /**

@@ -9,13 +9,16 @@
  */
 int main(int argc, char **argv)
 {
+	int status;
 	(void) argc;
 	(void) argv;
+	
 	signal(SIGINT, _signal);
+	
 
-	shell_loop();
+	status = shell_loop();
 
-	return(EXIT_SUCCESS);
+	return(status);
 }
 
 /**
