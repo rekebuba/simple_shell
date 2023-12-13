@@ -20,8 +20,11 @@ char *shell_read_line(void)
 		character = getchar();
 		if (character == EOF)
 		{
-			printf("\n");
-			fflush(stdout);
+			if (isatty(STDIN_FILENO))
+			{
+				printf("\n");
+				fflush(stdout);
+			}
 			exit(EXIT_SUCCESS);
 		}
 		if (character == EOF || character == '\n')
@@ -43,7 +46,7 @@ char *shell_read_line(void)
 		else
 			buffer[index] = character;
 		index++;
-		if (index >= buffer_size)/* if we have exceeded the buffer, reallocate */
+		if (index >= buffer_size) /* if we have exceeded the buffer, reallocate */
 		{
 			buffer_size += BUFFER;
 			buffer = realloc(buffer, buffer_size);
