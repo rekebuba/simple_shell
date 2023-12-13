@@ -35,8 +35,7 @@ int shell_execute(char **args)
 	else
 	{
 		/* were in the parent processor */
-		do
-		{
+		do {
 			waitpid(pid, &status, WUNTRACED);
 			count++;
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
