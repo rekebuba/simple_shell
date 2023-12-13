@@ -40,7 +40,7 @@ int shell_cd(char **args)
 		char *home_dir = get_home_directory();
 		if (chdir(home_dir) != 0)
 		{
-			perror("cd");
+			dprintf(2, "./hsh: 1: cd: can't cd to %s\n", args[1]);
 		}
 	}
 	else if (strcmp(args[1], "-") == 0)
@@ -50,7 +50,7 @@ int shell_cd(char **args)
 		{
 			if (chdir(previous_dir) != 0)
 			{
-				perror("cd");
+				dprintf(2, "./hsh: 1: cd: can't cd to %s\n", args[1]);
 			}
 			else
 			{
@@ -59,16 +59,12 @@ int shell_cd(char **args)
 				update_pwd_env_variable();
 			}
 		}
-		else
-		{
-			printf("cd: OLDPWD not set\n");
-		}
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
 		{
-			perror("cd");
+			dprintf(2, "./hsh: 1: cd: can't cd to %s\n", args[1]);
 		}
 		else
 		{
