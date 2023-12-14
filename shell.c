@@ -42,8 +42,8 @@ int main(int argc, char **argv)
 				{
 					status = shell_launch(args);
 				}
+				free(args);
 			}
-			free(args);
 			free(line);
 		}
 		else
