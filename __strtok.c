@@ -7,32 +7,37 @@
  * @delimiter: delimiters
  * Return: char*
  */
-char *_strtok(char *str, const char *delimiter)
+char *_strtok(char *str, const char *delim)
 {
-	static char *buffer;
+	static char *next_token = NULL;
 	char *token;
 
 	if (str != NULL)
 	{
-		buffer = str;
+		next_token = str;
+	}
+	if (next_token == NULL)
+	{
+		return NULL;
+	}
+	while (*next_token != '\0' && strchr(delim, *next_token) != NULL)
+	{
+		next_token++;
+	}
+	if (*next_token == '\0')
+	{
+		return NULL;
+	}
+	token = next_token;
+	while (*next_token != '\0' && strchr(delim, *next_token) == NULL)
+	{
+		next_token++;
+	}
+	if (*next_token != '\0')
+	{
+		*next_token = '\0';
+		next_token++;
 	}
 
-	if (buffer == NULL)
-	{
-		return (NULL);
-	}
-
-	token = buffer;
-	buffer += _strcspn(buffer, delimiter);
-	if (*buffer != '\0')
-	{
-		*buffer = '\0';
-		buffer++;
-	}
-	else
-	{
-		buffer = NULL;
-	}
-
-	return (token);
+	return token;
 }

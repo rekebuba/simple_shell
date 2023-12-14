@@ -1,293 +1,138 @@
-/***************************************************************************/ /**
-
-   @file         main.c
-
-   @author       Stephen Brennan
-
-   @date         Thursday,  8 January 2015
-
-   @brief        LSH (Libstephen SHell)
-
- *******************************************************************************/
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <ctype.h>
+#include <signal.h>
+#include <errno.h>
 
-/*
-  Function Declarations for builtin shell commands:
- */
-int lsh_cd(char **args);
-int lsh_help(char **args);
-int lsh_exit(char **args);
+#define MAX_COMMAND_LENGTH 100
 
-/*
-  List of builtin commands, followed by their corresponding functions.
- */
-char *builtin_str[] = {
-    "cd",
-    "help",
-    "exit"};
-
-int (*builtin_func[])(char **) = {
-    &lsh_cd,
-    &lsh_help,
-    &lsh_exit};
-
-int lsh_num_builtins()
+void handle_signal(int signal)
 {
-    return sizeof(builtin_str) / sizeof(char *);
+    // Handle the signal, if needed
+    exit(0);
 }
 
-/*
-  Builtin function implementations.
-*/
-
-/**
-   @brief Bultin command: change directory.
-   @param args List of args.  args[0] is "cd".  args[1] is the directory.
-   @return Always returns 1, to continue executing.
- */
-int lsh_cd(char **args)
+char *get_line()
 {
-    if (args[1] == NULL)
+    char *line = NULL;
+    ssize_t read;
+    size_t len = 0;
+
+    printf("$ ");
+    fflush(stdout);
+
+    read = getline(&line, &len, stdin);
+
+    if (read == -1)
     {
-        fprintf(stderr, "lsh: expected argument to \"cd\"\n");
+        if (isatty(STDIN_FILENO))
+            printf("\n");
+        free(line);
+        line = NULL;
     }
     else
     {
-        if (chdir(args[1]) != 0)
-        {
-            perror("lsh");
-        }
+        line[_strcspn(line, "\n")] = '\0'; // Remove trailing newline character
     }
-    return 1;
+
+    return line;
 }
 
-/**
-   @brief Builtin command: print help.
-   @param args List of args.  Not examined.
-   @return Always returns 1, to continue executing.
- */
-int lsh_help(char **args)
+char **split_line(char *line)
 {
-    int i;
-    printf("Stephen Brennan's LSH\n");
-    printf("Type program names and arguments, and hit enter.\n");
-    printf("The following are built in:\n");
+    char **args = malloc(MAX_COMMAND_LENGTH * sizeof(char *));
+    char *token;
+    int argCount = 0;
 
-    for (i = 0; i < lsh_num_builtins(); i++)
+    if (!args)
     {
-        printf("  %s\n", builtin_str[i]);
+        fprintf(stderr, "Memory allocation error\n");
+        exit(EXIT_FAILURE);
     }
 
-    printf("Use the man command for information on other programs.\n");
-    return 1;
+    token = strtok(line, " ");
+    while (token != NULL)
+    {
+        args[argCount] = token;
+        argCount++;
+        token = strtok(NULL, " ");
+    }
+    args[argCount] = NULL;
+
+    return args;
 }
 
-/**
-   @brief Builtin command: exit.
-   @param args List of args.  Not examined.
-   @return Always returns 0, to terminate execution.
- */
-int lsh_exit(char **args)
+int launch_command(char **args)
 {
-    return 0;
-}
-
-/**
-  @brief Launch a program and wait for it to terminate.
-  @param args Null terminated list of arguments (including program).
-  @return Always returns 1, to continue execution.
- */
-int lsh_launch(char **args)
-{
-    pid_t pid, wpid;
+    pid_t pid;
     int status;
 
     pid = fork();
+
     if (pid == 0)
     {
         // Child process
         if (execvp(args[0], args) == -1)
         {
-            perror("lsh");
+            perror("Error executing command");
+            exit(EXIT_FAILURE);
         }
-        exit(EXIT_FAILURE);
     }
     else if (pid < 0)
     {
-        // Error forking
-        perror("lsh");
+        // Forking failed
+        perror("Error forking child process");
+        exit(EXIT_FAILURE);
     }
     else
     {
         // Parent process
         do
         {
-            wpid = waitpid(pid, &status, WUNTRACED);
+            waitpid(pid, &status, WUNTRACED);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
 
-    return 1;
+    return WEXITSTATUS(status);
 }
 
-/**
-   @brief Execute shell built-in or launch program.
-   @param args Null terminated list of arguments.
-   @return 1 if the shell should continue running, 0 if it should terminate
- */
-int lsh_execute(char **args)
-{
-    int i;
-
-    if (args[0] == NULL)
-    {
-        // An empty command was entered.
-        return 1;
-    }
-
-    for (i = 0; i < lsh_num_builtins(); i++)
-    {
-        if (strcmp(args[0], builtin_str[i]) == 0)
-        {
-            return (*builtin_func[i])(args);
-        }
-    }
-
-    return lsh_launch(args);
-}
-
-#define LSH_RL_BUFSIZE 1024
-/**
-   @brief Read a line of input from stdin.
-   @return The line from stdin.
- */
-char *lsh_read_line(void)
-{
-    int bufsize = LSH_RL_BUFSIZE;
-    int position = 0;
-    char *buffer = malloc(sizeof(char) * bufsize);
-    int c;
-
-    if (!buffer)
-    {
-        fprintf(stderr, "lsh: allocation error\n");
-        exit(EXIT_FAILURE);
-    }
-
-    while (1)
-    {
-        // Read a character
-        c = getchar();
-
-        // If we hit EOF, replace it with a null character and return.
-        if (c == EOF || c == '\n')
-        {
-            buffer[position] = '\0';
-            if (c == EOF)
-                break;
-            return buffer;
-        }
-        else
-        {
-            buffer[position] = c;
-        }
-        position++;
-
-        // If we have exceeded the buffer, reallocate.
-        if (position >= bufsize)
-        {
-            bufsize += LSH_RL_BUFSIZE;
-            buffer = realloc(buffer, bufsize);
-            if (!buffer)
-            {
-                fprintf(stderr, "lsh: allocation error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-    }
-}
-
-#define LSH_TOK_BUFSIZE 64
-#define LSH_TOK_DELIM " \t\r\n\a"
-/**
-   @brief Split a line into tokens (very naively).
-   @param line The line.
-   @return Null-terminated array of tokens.
- */
-char **lsh_split_line(char *line)
-{
-    int bufsize = LSH_TOK_BUFSIZE, position = 0;
-    char **tokens = malloc(bufsize * sizeof(char *));
-    char *token;
-
-    if (!tokens)
-    {
-        fprintf(stderr, "lsh: allocation error\n");
-        exit(EXIT_FAILURE);
-    }
-
-    token = strtok(line, LSH_TOK_DELIM);
-    while (token != NULL)
-    {
-        tokens[position] = token;
-        position++;
-
-        if (position >= bufsize)
-        {
-            bufsize += LSH_TOK_BUFSIZE;
-            tokens = realloc(tokens, bufsize * sizeof(char *));
-            if (!tokens)
-            {
-                fprintf(stderr, "lsh: allocation error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-
-        token = strtok(NULL, LSH_TOK_DELIM);
-    }
-    tokens[position] = NULL;
-    return tokens;
-}
-
-/**
-   @brief Loop getting input and executing it.
- */
-void lsh_loop(void)
+int main(int argc, char **argv)
 {
     char *line;
     char **args;
-    int status;
+    int status = 0;
+
+    (void)argc;
+    (void)argv;
+
+    signal(SIGINT, handle_signal);
 
     do
     {
-        printf("> ");
-        line = lsh_read_line();
-        args = lsh_split_line(line);
-        status = lsh_execute(args);
+        line = get_line();
 
-        free(line);
-        free(args);
-    } while (status);
-}
+        if (line != NULL)
+        {
+            args = split_line(line);
 
-/**
-   @brief Main entry point.
-   @param argc Argument count.
-   @param argv Argument vector.
-   @return status code
- */
-int main(int argc, char **argv)
-{
-    // Load config files, if any.
+            if (args[0] != NULL)
+            {
+                status = launch_command(args);
+            }
 
-    // Run command loop.
-    lsh_loop();
+            free(args);
+            free(line);
+        }
+    } while (status == 0);
 
-    // Perform any shutdown/cleanup.
+    if (status == 1)
+    {
+        return 127;
+    }
 
-    return EXIT_SUCCESS;
+    return status;
 }

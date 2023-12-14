@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
         }
 
         // Remove trailing newline character
-        buffer[strcspn(buffer, "\n")] = '\0';
+        buffer[_strcspn(buffer, "\n")] = '\0';
 
         // Fork a child process
         pid_t pid = fork();

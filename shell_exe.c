@@ -2,14 +2,13 @@
 
 /**
  * shell_execute - it executes the command entered
- *
  * @args: the argument passed
  * Return: int
  */
 int shell_execute(char **args)
 {
 	pid_t pid;
-	int status;
+	int status = 0;
 	static int count = 1;
 
 	pid = fork();

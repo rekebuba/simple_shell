@@ -17,6 +17,7 @@
 #define TOK_DELIM " \t\r\n\a\"" /* the delimeter used to tokenize*/
 
 int shell_loop(void);
+char *read_line();
 char **shell_split_line(char *line);
 void is_comment(char *);
 char *_strtok(char *str, const char *delimiter);
@@ -28,7 +29,6 @@ int shell_exit(char **args);
 
 void _signal(int signal);
 
-void removeWhiteSpace(char *str);
 
 char **command(char *arg);
 

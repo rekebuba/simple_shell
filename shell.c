@@ -8,38 +8,36 @@
  */
 int main(int argc, char **argv)
 {
-	ssize_t read;
-	char *line = NULL;
+
+	char *line;
 	char **args;
-	int status;
-	size_t len = 0;
+	int status = 0;
 	(void)argc;
 	(void)argv;
+	
 	signal(SIGINT, _signal);
 	do {
-		if (isatty(STDIN_FILENO))
+		line = read_line();
+		if (line != NULL)
 		{
-			printf("$ ");
-			fflush(stdout);
+			is_comment(line);
+			args = shell_split_line(line);
+			if (args[0] != NULL)
+			{
+				status = shell_launch(args);
+			}
+			free(args);
+			free(line);
 		}
-		read = get_line(&line, &len, stdin);
-		if (read == -1)
+		else
 		{
-			if (isatty(STDIN_FILENO))
-				printf("\n");
 			break;
 		}
-		is_comment(line);
-		if (_strcmp(line, "\0") != 0)
-		{
-			args = shell_split_line(line);
-			status = shell_launch(args);
-			free(args);
-		}
-		free(line);
 	} while (status == 0);
+
 	if (status == 1)
 		return (127);
+
 	return (status);
 }
 
