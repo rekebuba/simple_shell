@@ -6,16 +6,12 @@
  * @argv: the argument passed
  * Return: int
  */
-int main(int argc, char **argv)
+int main(void)
 {
-
 	char *line;
 	char **args;
-	int status = 0;
-	int i;
+	int status = 0, i;
 	char **cmd;
-	(void)argc;
-	(void)argv;
 
 	signal(SIGINT, _signal);
 	do
