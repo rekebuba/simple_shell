@@ -41,21 +41,8 @@ char *read_line()
  */
 void is_comment(char *line)
 {
-	int i;
-	char **cmd;
 	if (strchr(line, '#') != NULL)
 	{
 		line[_strcspn(line, "#")] = '\0';
-	}
-	else if (strchr(line, ';') != NULL)
-	{
-		cmd = command(line);
-		i = 0;
-		while (cmd[i] != NULL)
-		{
-			_system(cmd[i]);
-			i++;
-		}
-		free(cmd);
 	}
 }

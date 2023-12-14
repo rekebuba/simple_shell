@@ -12,22 +12,39 @@ int main(int argc, char **argv)
 	char *line;
 	char **args;
 	int status = 0;
+	int i;
+	char **cmd;
 	(void)argc;
 	(void)argv;
-	
+
 	signal(SIGINT, _signal);
-	do {
+	do
+	{
 		line = read_line();
 		if (line != NULL)
 		{
 			is_comment(line);
-			args = shell_split_line(line);
-			if (args[0] != NULL)
+			if (strchr(line, ';') != NULL)
 			{
-				status = shell_launch(args);
+				cmd = command(line);
+				i = 0;
+				while (cmd[i] != NULL)
+				{
+					status = system(cmd[i]);
+					i++;
+				}
+				free(cmd);
 			}
-			free(args);
-			free(line);
+			else
+			{
+				args = shell_split_line(line);
+				if (args[0] != NULL)
+				{
+					status = shell_launch(args);
+				}
+				free(args);
+				free(line);
+			}
 		}
 		else
 		{
