@@ -1,58 +1,5 @@
 #include "main.h"
 
-/*
- * shell_loop - uses to prompt the user
- * @void: void
- * Return: int
- */
-int shell_loop(void)
-{
-	ssize_t read;
-	char *line = NULL;
-	char **args, **cmd;
-	int status, i;
-	size_t len = 0;
-
-	do
-	{
-		if (isatty(STDIN_FILENO))
-		{
-			printf("$ ");
-			fflush(stdout);
-		}
-		read = get_line(&line, &len, stdin);
-		if (read == -1)
-		{
-			if (isatty(STDIN_FILENO))
-				printf("\n");
-			break;
-		}
-		line[strcspn(line, "\n")] = '\0';
-		is_comment(line);
-		if (char_in_str(line, ';') != NULL)
-		{
-			cmd = command(line);
-			i = 0;
-			while (cmd[i] != NULL)
-			{
-				_system(cmd[i]);
-				i++;
-			}
-			free(cmd);
-		}
-		else
-		{
-			args = shell_split_line(line);
-			status = shell_launch(args);
-			free(args);
-		}
-		free(line);
-	} while (status == 0);
-	if (status == 1)
-		return (127);
-	return (status);
-}
-
 /**
  * command - command
  * @arg: the string passed

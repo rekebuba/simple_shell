@@ -12,8 +12,6 @@ int shell_execute(char **args)
 	int status;
 	static int count = 1;
 
-	if (_strcmp(args[0], "\0") == 0)
-		return (0);
 	pid = fork();
 
 	if (pid == 0)

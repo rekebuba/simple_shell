@@ -8,6 +8,8 @@
 void is_comment(char *line)
 {
 	int i;
+	char **cmd;
+	line[strcspn(line, "\n")] = '\0';
 	removeWhiteSpace(line);
 	for (i = 0; line[i]; i++)
 	{
@@ -16,5 +18,16 @@ void is_comment(char *line)
 			line[i] = '\0';
 			removeWhiteSpace(line);
 		}
+	}
+	if (char_in_str(line, ';') != NULL)
+	{
+		cmd = command(line);
+		i = 0;
+		while (cmd[i] != NULL)
+		{
+			_system(cmd[i]);
+			i++;
+		}
+		free(cmd);
 	}
 }
