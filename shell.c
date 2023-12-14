@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 				i = 0;
 				while (cmd[i] != NULL)
 				{
-					status = system(cmd[i]);
+					system(cmd[i]);
 					i++;
 				}
 				free(cmd);
