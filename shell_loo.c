@@ -46,8 +46,8 @@ int shell_loop(void)
 			status = shell_launch(args);
 			free(args);
 		}
+		free(line);
 	} while (status == 0);
-	free(line);
 	if (status == 1)
 		return (127);
 	return (status);
