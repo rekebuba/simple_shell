@@ -12,10 +12,10 @@ ssize_t get_line(char **line_ptr, size_t *n, FILE *stream)
 	size_t len = 0;
 	int c;
 	char *temp, *line = NULL;
+
 	if (line_ptr == NULL || n == NULL)
 		return (-1);
-	while (1)
-	{
+	do {
 		c = fgetc(stream);
 		if (c == EOF)
 			break;
@@ -40,7 +40,7 @@ ssize_t get_line(char **line_ptr, size_t *n, FILE *stream)
 			}
 			line = temp;
 		}
-	}
+	} while (1);
 	if (len == 0)
 	{
 		free(line);
