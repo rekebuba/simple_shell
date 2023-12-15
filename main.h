@@ -43,5 +43,5 @@ size_t _strcspn(const char *str1, const char *str2);
 ssize_t get_line(char **line_ptr, size_t *n, FILE *stream);
 int _atoi(const char *str);
 
-char *get_home_directory(void);
+
 #endif
