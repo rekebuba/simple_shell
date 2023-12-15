@@ -25,10 +25,18 @@ int main(void)
 			}
 			else
 			{
-				args = shell_split_line(line);
-				if (args[0] != NULL)
+				if (strstr(line, "setenv") != NULL || strstr(line, "unsetenv") != NULL)
 				{
-					status = shell_launch(args);
+					args = shell_split_line(line);
+					set_unset(args);
+				}
+				else
+				{
+					args = shell_split_line(line);
+					if (args[0] != NULL)
+					{
+						status = shell_launch(args);
+					}
 				}
 				free(args);
 			}
@@ -44,6 +52,32 @@ int main(void)
 		return (127);
 
 	return (status);
+}
+
+void set_unset(char **args)
+{
+	int i;
+	for (i = 0; args[i]; i++)
+	{
+		if (strcmp(args[i], "setenv") == 0)
+		{
+			if (setenv(args[i + 1], args[i + 2], 1) != 0)
+			{
+				dprintf(2, "Failed to set environment variable\n");
+			}
+		}
+		else if (strcmp(args[i], "unsetenv") == 0)
+		{
+			if (unsetenv(args[i + 1]) != 0)
+			{
+				dprintf(2, "Failed to unset environment variable\n");
+			}
+		}
+		else if (strcmp(args[i], "env") == 0)
+		{
+			system(args[i]);
+		}
+	}
 }
 
 void is_colon(char *line)
