@@ -10,8 +10,7 @@ int main(void)
 {
 	char *line;
 	char **args;
-	int status = 0, i;
-	char **cmd;
+	int status = 0;
 
 	signal(SIGINT, _signal);
 	do
@@ -22,14 +21,7 @@ int main(void)
 			is_comment(line);
 			if (strchr(line, ';') != NULL)
 			{
-				cmd = command(line);
-				i = 0;
-				while (cmd[i] != NULL)
-				{
-					system(cmd[i]);
-					i++;
-				}
-				free(cmd);
+				is_colon(line);
 			}
 			else
 			{
@@ -52,6 +44,19 @@ int main(void)
 		return (127);
 
 	return (status);
+}
+
+void is_colon(char *line)
+{
+	int i = 0;
+	char **cmd;
+	cmd = command(line);
+	while (cmd[i] != NULL)
+	{
+		system(cmd[i]);
+		i++;
+	}
+	free(cmd);
 }
 
 /**
