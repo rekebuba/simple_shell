@@ -10,13 +10,13 @@
 ssize_t get_line(char **line_ptr, size_t *n, FILE *stream)
 {
 	size_t len = 0;
+	int c;
 	char *temp, *line = NULL;
-
 	if (line_ptr == NULL || n == NULL)
 		return (-1);
 	while (1)
 	{
-		int c = fgetc(stream);
+		c = fgetc(stream);
 		if (c == EOF)
 			break;
 		if (len == 0)

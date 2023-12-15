@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
- * read_line
+ * read_line - read a line from stdin
  *
- * Return: char*
+ * Return: void
  */
 char *read_line()
 {

@@ -1,15 +1,15 @@
 #include "main.h"
 
 /**
- * _strtok - used to tokenize a string besed on specified delimete
+ * _strtok - used to tokenize a string besed on specified delimeter
  *
  * @str: the string that needs to be tokenize
- * @delimiter: delimiters
+ * @delim: delimiters
  * Return: char*
  */
 char *_strtok(char *str, const char *delim)
 {
-	static char *next_token = NULL;
+	static char *next_token;
 	char *token;
 
 	if (str != NULL)
@@ -18,7 +18,7 @@ char *_strtok(char *str, const char *delim)
 	}
 	if (next_token == NULL)
 	{
-		return NULL;
+		return (NULL);
 	}
 	while (*next_token != '\0' && strchr(delim, *next_token) != NULL)
 	{
@@ -26,7 +26,7 @@ char *_strtok(char *str, const char *delim)
 	}
 	if (*next_token == '\0')
 	{
-		return NULL;
+		return (NULL);
 	}
 	token = next_token;
 	while (*next_token != '\0' && strchr(delim, *next_token) == NULL)
@@ -39,5 +39,5 @@ char *_strtok(char *str, const char *delim)
 		next_token++;
 	}
 
-	return token;
+	return (token);
 }

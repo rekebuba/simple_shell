@@ -1,22 +1,6 @@
 #include "main.h"
 
 /**
- *char_in_str - locates a character in a string like strchr()
- *@s: the string to be parsed
- *@c: the character to look for
- *Return: (s) a pointer to the memory area
- */
-char *char_in_str(char *s, char c)
-{
-	do {
-		if (*s == c)
-			return (s);
-	} while (*s++ != '\0');
-
-	return (NULL);
-}
-
-/**
  * _system - execute a command
  * @command: string passed
  * Return: int
@@ -95,4 +79,3 @@ size_t _strcspn(const char *str1, const char *str2)
 
 	return (count);
 }
-

@@ -3,7 +3,7 @@
 /**
  * _atoi - convert string to integer
  * @str: the string to be converted
- * Return: int 
+ * Return: int
  */
 int _atoi(const char *str)
 {
@@ -30,5 +30,5 @@ int _atoi(const char *str)
 		str++;
 	}
 
-	return result * sign;
+	return (result * sign);
 }

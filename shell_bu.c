@@ -35,15 +35,16 @@ int shell_cd(char **args)
 /**
  * shell_exit - the exit command
  *
- * @args: the argument passed
- * Return: int
+ * @line: the string passed
+ * Return: void
  */
 void shell_exit(char *line)
 {
 	int i = 0, l;
 	char *result = NULL;
-	result = strtok(line, " ");
-	result = strtok(NULL, " ");
+
+	result = _strtok(line, " ");
+	result = _strtok(NULL, " ");
 	if (result != NULL)
 	{
 		for (i = 0; result[i]; i++)
@@ -59,7 +60,7 @@ void shell_exit(char *line)
 				return;
 			}
 		}
-		l = atoi(result);
+		l = _atoi(result);
 		free(line);
 		exit(l);
 	}
