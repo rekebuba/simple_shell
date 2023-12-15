@@ -25,9 +25,8 @@ int shell_execute(char **args);
 
 int shell_launch(char **args);
 int shell_cd(char **args);
-int shell_exit(char **args);
-int _setenv(char **args);
-int _unsetenv(char **args);
+void shell_exit(char *line);
+
 void _signal(int signal);
 
 

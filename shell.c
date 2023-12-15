@@ -18,29 +18,36 @@ int main(void)
 		line = read_line();
 		if (line != NULL)
 		{
-			is_comment(line);
-			if (strchr(line, ';') != NULL)
+			if (strstr(line, "exit") != NULL)
 			{
-				is_colon(line);
+				shell_exit(line);
 			}
 			else
 			{
-				if (strstr(line, "setenv") != NULL || strstr(line, "unsetenv") != NULL)
+				is_comment(line);
+				if (strchr(line, ';') != NULL)
 				{
-					args = shell_split_line(line);
-					set_unset(args);
+					is_colon(line);
 				}
 				else
 				{
-					args = shell_split_line(line);
-					if (args[0] != NULL)
+					if (strstr(line, "setenv") != NULL || strstr(line, "unsetenv") != NULL)
 					{
-						status = shell_launch(args);
+						args = shell_split_line(line);
+						set_unset(args);
 					}
+					else
+					{
+						args = shell_split_line(line);
+						if (args[0] != NULL)
+						{
+							status = shell_launch(args);
+						}
+					}
+					free(args);
 				}
-				free(args);
+				free(line);
 			}
-			free(line);
 		}
 		else
 		{

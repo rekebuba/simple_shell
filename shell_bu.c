@@ -38,24 +38,32 @@ int shell_cd(char **args)
  * @args: the argument passed
  * Return: int
  */
-int shell_exit(char **args)
+void shell_exit(char *line)
 {
-	int i;
-	int len;
-
-	if (args[1] != NULL)
+	int i = 0, l;
+	char *result = NULL;
+	result = strtok(line, " ");
+	result = strtok(NULL, " ");
+	if (result != NULL)
 	{
-		len = _strlen(args[1]);
-		for (i = 0; i < len; i++)
+		for (i = 0; result[i]; i++)
 		{
-			if (!isdigit(args[1][i]))
+			if (!isdigit(result[i]))
 			{
-				dprintf(2, "./hsh: 1: exit: Illegal number: %s\n", args[1]);
-				exit(2);
+				dprintf(2, "./hsh: 1: exit: Illegal number: %s\n", result);
+				if (!isatty(STDIN_FILENO))
+				{
+					free(line);
+					exit(2);
+				}
+				return;
 			}
 		}
-		exit(_atoi(args[1]));
+		l = atoi(result);
+		free(line);
+		exit(l);
 	}
+	free(line);
 	exit(EXIT_SUCCESS);
 }
 
@@ -68,9 +76,9 @@ int shell_exit(char **args)
 int shell_launch(char **args)
 {
 	int i;
-	char *built_in_str[] = {"cd", "exit"};
+	char *built_in_str[] = {"cd"};
 
-	int (*builtin_function[])(char **) = {&shell_cd, &shell_exit};
+	int (*builtin_function[])(char **) = {&shell_cd};
 	int number_of_builtin = sizeof(built_in_str) / sizeof(char *);
 
 	for (i = 0; i < number_of_builtin; i++)
