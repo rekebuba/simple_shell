@@ -15,3 +15,20 @@ size_t _strlen(const char *str)
 	}
 	return (s - str);
 }
+
+/**
+ * array_len - determine the length of array using a simple loop.
+ * @args: array of strings
+ * Return: length
+ */
+int array_len(char **args)
+{
+	int arg_count = 0;
+
+	while (args[arg_count] != NULL)
+	{
+		arg_count++;
+	}
+
+	return (0);
+}

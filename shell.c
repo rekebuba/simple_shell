@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 /**
  * main - the main program
  * Return: void
@@ -20,8 +19,16 @@ int main(void)
 			is_comment(user_input);
 			is_colon(user_input);
 
-			args = shell_split_line(user_input);
-			status = shell_launch(user_input, args);
+			if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
+			{
+				args = shell_split_line(user_input);
+				set_unset(args);
+			}
+			else
+			{
+				args = shell_split_line(user_input);
+				status = shell_launch(user_input, args);
+			}
 
 			free_mem(user_input, args);
 		}
@@ -62,7 +69,11 @@ void set_unset(char **args)
 	{
 		if (_strcmp(args[i], "setenv") == 0)
 		{
-			if (setenv(args[i + 1], args[i + 2], 1) != 0)
+			if (args[i + 2] == NULL && setenv(args[i + 1], "", 1) != 0)
+			{
+				dprintf(2, "Failed to set environment variable\n");
+			}
+			else if (args[i + 2] != NULL && setenv(args[i + 1], args[i + 2], 1) != 0)
 			{
 				dprintf(2, "Failed to set environment variable\n");
 			}
@@ -74,7 +85,7 @@ void set_unset(char **args)
 				dprintf(2, "Failed to unset environment variable\n");
 			}
 		}
-		else if (_strcmp(args[i], "env") == 0)
+		else if (array_len(args) == 1 && _strcmp(args[i], "env") == 0)
 		{
 			system(args[i]);
 		}

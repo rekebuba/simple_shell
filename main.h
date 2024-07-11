@@ -36,5 +36,6 @@ int _atoi(const char *str);
 void is_colon(char *line);
 void set_unset(char **args);
 void free_mem(char *user_input, char **args);
+int array_len(char **args);
 
 #endif

@@ -8,6 +8,7 @@
         "fcntl.h": "c"
     },
     "cSpell.words": [
-        "hastag"
+        "hastag",
+        "OLDPWD"
     ]
 }
