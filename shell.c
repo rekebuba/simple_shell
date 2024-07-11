@@ -1,51 +1,50 @@
 #include "main.h"
 
+
 /**
  * main - the main program
  * Return: void
  */
 int main(void)
 {
-	char *line;
+	char *user_input;
 	char **args;
 	int status = 0;
 
 	signal(SIGINT, _signal);
 	do {
-		line = read_line();
-		if (line != NULL)
+		user_input = read_line();
+		if (user_input != NULL)
 		{
-			if (strstr(line, "exit") != NULL)
-				shell_exit(line);
-			else
-			{
-				is_comment(line);
-				if (strchr(line, ';') != NULL)
-					is_colon(line);
-				else
-				{
-					if (strstr(line, "setenv") != NULL || strstr(line, "unsetenv") != NULL)
-					{
-						args = shell_split_line(line);
-						set_unset(args);
-					}
-					else
-					{
-					args = shell_split_line(line);
-					if (args[0] != NULL)
-					status = shell_launch(args);
-					}
-					free(args);
-				}
-				free(line);
-			}
+			shell_exit(user_input);
+			is_comment(user_input);
+			is_colon(user_input);
+
+			args = shell_split_line(user_input);
+			status = shell_launch(user_input, args);
+
+			free_mem(user_input, args);
 		}
 		else
 			break;
 	} while (status == 0);
+
 	if (status == 1)
 		return (127);
+
 	return (status);
+}
+
+/**
+ * free_mem - uses to free all allocated memory
+ * @user_input: users input
+ * @args: arguments
+ * Return: void
+ */
+void free_mem(char *user_input, char **args)
+{
+	free(user_input);
+	free(args);
 }
 
 /**
@@ -91,6 +90,11 @@ void is_colon(char *line)
 {
 	int i = 0;
 	char **cmd;
+
+	if (strchr(line, ';') == NULL)
+	{
+		return;
+	}
 
 	cmd = command(line);
 	while (cmd[i] != NULL)

@@ -2,10 +2,11 @@
 
 /**
  * shell_execute - it executes the command entered
+ * @user_input: users input
  * @args: the argument passed
  * Return: int
  */
-int shell_execute(char **args)
+int shell_execute(char *user_input, char **args)
 {
 	pid_t pid;
 	int status = 0;
@@ -20,6 +21,7 @@ int shell_execute(char **args)
 		{
 			dprintf(2, "./hsh: %d: %s: not found\n", count, args[0]);
 			count++;
+			free_mem(user_input, args);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -27,6 +29,7 @@ int shell_execute(char **args)
 	{
 		/* failed to fork */
 		perror("failed to fork\n");
+		free_mem(user_input, args);
 		exit(EXIT_FAILURE);
 	}
 	else

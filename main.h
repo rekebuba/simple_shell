@@ -19,8 +19,8 @@ char *read_line();
 char **shell_split_line(char *line);
 void is_comment(char *);
 char *_strtok(char *str, const char *delimiter);
-int shell_execute(char **args);
-int shell_launch(char **args);
+int shell_execute(char *user_input, char **args);
+int shell_launch(char *user_input, char **args);
 int shell_cd(char **args);
 void shell_exit(char *line);
 void _signal(int signal);
@@ -35,6 +35,6 @@ ssize_t get_line(char **line_ptr, size_t *n, FILE *stream);
 int _atoi(const char *str);
 void is_colon(char *line);
 void set_unset(char **args);
-
+void free_mem(char *user_input, char **args);
 
 #endif

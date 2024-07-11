@@ -43,6 +43,11 @@ void shell_exit(char *line)
 	int i = 0, l;
 	char *result = NULL;
 
+	if (strstr(line, "exit") == NULL)
+	{
+		return;
+	}
+
 	result = _strtok(line, " ");
 	result = _strtok(NULL, " ");
 	if (result != NULL)
@@ -70,11 +75,11 @@ void shell_exit(char *line)
 
 /**
  * shell_launch - all the builtin are executed inside this func
- *
+ * @user_input: users input
  * @args: the argument passed
  * Return: int
  */
-int shell_launch(char **args)
+int shell_launch(char *user_input, char **args)
 {
 	int i;
 	char *built_in_str[] = {"cd"};
@@ -82,6 +87,17 @@ int shell_launch(char **args)
 	int (*builtin_function[])(char **) = {&shell_cd};
 	int number_of_builtin = sizeof(built_in_str) / sizeof(char *);
 
+	if (args[0] == NULL)
+	{
+		return (0);
+	}
+	else if (
+		args[0] && (strstr(args[0], "setenv") || strstr(args[0], "unsetenv"))
+		)
+	{
+		set_unset(args);
+		return (0);
+	}
 	for (i = 0; i < number_of_builtin; i++)
 	{
 		if (_strcmp(args[0], built_in_str[i]) == 0)
@@ -90,5 +106,5 @@ int shell_launch(char **args)
 		}
 	}
 	/* if no argument is found */
-	return (shell_execute(args));
+	return (shell_execute(user_input, args));
 }

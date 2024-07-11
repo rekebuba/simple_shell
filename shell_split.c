@@ -30,7 +30,6 @@ char **shell_split_line(char *line)
 			tokens = realloc(tokens, buffer_size * sizeof(char *));
 			if (!tokens)
 			{
-
 				perror("ERROR: failed to allocate memory\n");
 				exit(EXIT_FAILURE);
 			}
