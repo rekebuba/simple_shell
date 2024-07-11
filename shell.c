@@ -7,7 +7,7 @@
 int main(void)
 {
 	char *user_input;
-	char **args;
+	char **args = NULL;
 	int status = 0;
 
 	signal(SIGINT, _signal);
@@ -17,9 +17,12 @@ int main(void)
 		{
 			shell_exit(user_input);
 			is_comment(user_input);
-			is_colon(user_input);
 
-			if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
+			if (strchr(user_input, ';') != NULL)
+			{
+				status = is_colon(user_input);
+			}
+			else if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
 			{
 				args = shell_split_line(user_input);
 				set_unset(args);
@@ -93,27 +96,27 @@ void set_unset(char **args)
 }
 
 /**
- *  is_colon - handles the ; character
- * @line: The line of input from the user
- * Return: void
+ * is_colon - handles the ; character
+ * @user_input: The line of input from the user
+ * Return: status
  */
-void is_colon(char *line)
+int is_colon(char *user_input)
 {
 	int i = 0;
 	char **cmd;
+	char **args;
+	int status = 0;
 
-	if (strchr(line, ';') == NULL)
-	{
-		return;
-	}
-
-	cmd = command(line);
+	cmd = tok_colon(user_input);
 	while (cmd[i] != NULL)
 	{
-		system(cmd[i]);
+		args = shell_split_line(cmd[i]);
+		status = shell_launch(user_input, args);
+		free(args);
 		i++;
 	}
 	free(cmd);
+	return (status);
 }
 
 /**

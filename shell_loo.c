@@ -1,11 +1,11 @@
 #include "main.h"
 
 /**
- * command - command
+ * tok_colon - tokenize the string by semicolon
  * @arg: the string passed
  * Return: char**
  */
-char **command(char *arg)
+char **tok_colon(char *arg)
 {
 	char **tokens = malloc(BUFFER * sizeof(char *));
 	char *token;

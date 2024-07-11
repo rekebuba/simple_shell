@@ -24,7 +24,7 @@ int shell_launch(char *user_input, char **args);
 int shell_cd(char **args);
 void shell_exit(char *line);
 void _signal(int signal);
-char **command(char *arg);
+char **tok_colon(char *arg);
 int _space(int c);
 size_t _strlen(const char *str);
 int _system(const char *command);
@@ -33,7 +33,7 @@ size_t _strcspn(const char *str1, const char *str2);
 
 ssize_t get_line(char **line_ptr, size_t *n, FILE *stream);
 int _atoi(const char *str);
-void is_colon(char *line);
+int is_colon(char *line);
 void set_unset(char **args);
 void free_mem(char *user_input, char **args);
 int array_len(char **args);
