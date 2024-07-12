@@ -17,8 +17,11 @@ int main(void)
 		{
 			shell_exit(user_input);
 			is_comment(user_input);
-
-			if (strchr(user_input, ';') != NULL)
+			if (strstr(user_input, "&&") || strstr(user_input, "||"))
+			{
+				status = logical_ope(user_input);
+			}
+			else if (strchr(user_input, ';') != NULL)
 			{
 				status = is_colon(user_input);
 			}
@@ -37,7 +40,7 @@ int main(void)
 		}
 		else
 			break;
-	} while (status == 0);
+	} while (true);
 
 	if (status == 1)
 		return (127);
@@ -103,19 +106,19 @@ void set_unset(char **args)
 int is_colon(char *user_input)
 {
 	int i = 0;
-	char **cmd;
+	char **command;
 	char **args;
 	int status = 0;
 
-	cmd = tok_colon(user_input);
-	while (cmd[i] != NULL)
+	command = tok_colon(user_input);
+	while (command[i] != NULL)
 	{
-		args = shell_split_line(cmd[i]);
+		args = shell_split_line(command[i]);
 		status = shell_launch(user_input, args);
 		free(args);
 		i++;
 	}
-	free(cmd);
+	free(command);
 	return (status);
 }
 

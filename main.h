@@ -34,6 +34,7 @@ size_t _strcspn(const char *str1, const char *str2);
 ssize_t get_line(char **line_ptr, size_t *n, FILE *stream);
 int _atoi(const char *str);
 int is_colon(char *line);
+int logical_ope(char *line);
 void set_unset(char **args);
 void free_mem(char *user_input, char **args);
 int array_len(char **args);

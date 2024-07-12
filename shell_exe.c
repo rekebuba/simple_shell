@@ -45,5 +45,5 @@ int shell_execute(char *user_input, char **args)
 		return (WEXITSTATUS(status));
 	}
 
-	return (0);
+	return (WEXITSTATUS(status));
 }
