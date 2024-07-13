@@ -138,7 +138,7 @@ int file_as_input(char **args)
 	file = fopen(file_name, "r");
 	if (file == NULL)
 	{
-		dprintf(2, "./hsh: 0: cannot open %s: No such file\n", file_name);
+		dprintf(2, "./hsh: 0: Can't open %s\n", file_name);
 		return (2);
 	}
 
