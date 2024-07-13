@@ -143,7 +143,7 @@ int file_as_input(char **args)
 	}
 
 	/* Read one line at a time */
-	while (getline(&line, &len, file) != -1)
+	while (get_line(&line, &len, file) != -1)
 	{
 		/* Process the line */
 		status = shell(line, status);
