@@ -33,7 +33,7 @@ int main(void)
 			else
 			{
 				args = shell_split_line(user_input);
-				status = shell_launch(user_input, args);
+				status = shell_launch(user_input, args, status);
 			}
 
 			free_mem(user_input, args);
@@ -41,9 +41,6 @@ int main(void)
 		else
 			break;
 	} while (true);
-
-	if (status == 1)
-		return (127);
 
 	return (status);
 }
@@ -83,6 +80,7 @@ void set_unset(char **args)
 			{
 				dprintf(2, "Failed to set environment variable\n");
 			}
+			printf("env: %s\n", getenv(args[i + 1]));
 		}
 		else if (_strcmp(args[i], "unsetenv") == 0)
 		{
@@ -114,7 +112,7 @@ int is_colon(char *user_input)
 	while (command[i] != NULL)
 	{
 		args = shell_split_line(command[i]);
-		status = shell_launch(user_input, args);
+		status = shell_launch(user_input, args, status);
 		free(args);
 		i++;
 	}

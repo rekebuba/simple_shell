@@ -95,11 +95,13 @@ void shell_exit(char *line)
  * shell_launch - all the builtin are executed inside this func
  * @user_input: users input
  * @args: the argument passed
+ * @prev_status: return the previous status of the child process
  * Return: int
  */
-int shell_launch(char *user_input, char **args)
+int shell_launch(char *user_input, char **args, int prev_status)
 {
-	int i;
+	int i = 0;
+	char *env;
 	char *built_in_str[] = {"cd"};
 
 	int (*builtin_function[])(char **) = {&shell_cd};
@@ -110,6 +112,23 @@ int shell_launch(char *user_input, char **args)
 		return (0);
 	}
 
+	while (args[i] != NULL)
+	{
+		if (*args[i] == '$' && getenv(args[i] + 1))
+		{
+			env = getenv(args[i] + 1);
+			args[i] = env;
+		}
+		else if (*args[i] == '$' && !getenv(args[i] + 1))
+		{
+			if (args[i][1] != '\0' &&
+				_strcmp(args[i], "$$") != 0 && _strcmp(args[i], "$?") != 0)
+			{
+				args[i] = "";
+			}
+		}
+		i++;
+	}
 	for (i = 0; i < number_of_builtin; i++)
 	{
 		if (_strcmp(args[0], built_in_str[i]) == 0)
@@ -118,5 +137,5 @@ int shell_launch(char *user_input, char **args)
 		}
 	}
 	/* if no argument is found */
-	return (shell_execute(user_input, args));
+	return (shell_execute(user_input, args, prev_status));
 }

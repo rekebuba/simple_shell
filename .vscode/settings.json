@@ -5,7 +5,11 @@
         "wait.h": "c",
         "*.ac": "c",
         "main.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "ctype.h": "c",
+        "*.tcc": "c",
+        "type_traits": "c",
+        "stdlib.h": "c"
     },
     "cSpell.words": [
         "hastag",

@@ -48,7 +48,7 @@ int logical_ope(char *user_input)
 	{
 		found = strpbrk(first_occurrence, "&&||");
 		args = shell_split_line(command[i]);
-		status = shell_launch(user_input, args);
+		status = shell_launch(user_input, args, status);
 		if (found && ((*found == '&' && status != 0) ||
 					  (*found == '|' && status == 0)))
 		{
