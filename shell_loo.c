@@ -67,3 +67,27 @@ int logical_ope(char *user_input)
 	free(ptr);
 	return (status);
 }
+
+/**
+ * is_colon - handles the ; character
+ * @user_input: The line of input from the user
+ * Return: status
+ */
+int is_colon(char *user_input)
+{
+	int i = 0;
+	char **command;
+	char **args;
+	int status = 0;
+
+	command = tok_colon(user_input);
+	while (command[i] != NULL)
+	{
+		args = shell_split_line(command[i]);
+		status = shell_launch(user_input, args, status);
+		free(args);
+		i++;
+	}
+	free(command);
+	return (status);
+}

@@ -2,45 +2,69 @@
 
 /**
  * main - the main program
+ * @argc: number of command line arguments
+ * @argv: array of strings, each string represents a command line argument
  * Return: void
  */
-int main(void)
+int main(int argc, char **argv)
 {
 	char *user_input;
+	int status = 0;
+	(void)argc;
+	signal(SIGINT, _signal);
+	if (argv[1])
+	{
+		status = file_as_input(argv);
+	}
+	else
+	{
+		do {
+			user_input = read_line();
+			if (user_input != NULL)
+			{
+				status = shell(user_input);
+			}
+			else
+				break;
+
+		} while (true);
+	}
+
+	return (status);
+}
+
+/**
+ * shell - process and executes user input
+ * @user_input: user input
+ * Return: exit status
+ */
+int shell(char *user_input)
+{
 	char **args = NULL;
 	int status = 0;
 
-	signal(SIGINT, _signal);
-	do {
-		user_input = read_line();
-		if (user_input != NULL)
-		{
-			shell_exit(user_input);
-			is_comment(user_input);
-			if (strstr(user_input, "&&") || strstr(user_input, "||"))
-			{
-				status = logical_ope(user_input);
-			}
-			else if (strchr(user_input, ';') != NULL)
-			{
-				status = is_colon(user_input);
-			}
-			else if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
-			{
-				args = shell_split_line(user_input);
-				set_unset(args);
-			}
-			else
-			{
-				args = shell_split_line(user_input);
-				status = shell_launch(user_input, args, status);
-			}
+	shell_exit(user_input);
+	is_comment(user_input);
+	if (strstr(user_input, "&&") || strstr(user_input, "||"))
+	{
+		status = logical_ope(user_input);
+	}
+	else if (strchr(user_input, ';') != NULL)
+	{
+		status = is_colon(user_input);
+	}
+	else if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
+	{
+		args = shell_split_line(user_input);
+		set_unset(args);
+	}
+	else
+	{
+		args = shell_split_line(user_input);
+		status = shell_launch(user_input, args, status);
+	}
 
-			free_mem(user_input, args);
-		}
-		else
-			break;
-	} while (true);
+	free_mem(user_input, args);
 
 	return (status);
 }
@@ -94,30 +118,6 @@ void set_unset(char **args)
 			system(args[i]);
 		}
 	}
-}
-
-/**
- * is_colon - handles the ; character
- * @user_input: The line of input from the user
- * Return: status
- */
-int is_colon(char *user_input)
-{
-	int i = 0;
-	char **command;
-	char **args;
-	int status = 0;
-
-	command = tok_colon(user_input);
-	while (command[i] != NULL)
-	{
-		args = shell_split_line(command[i]);
-		status = shell_launch(user_input, args, status);
-		free(args);
-		i++;
-	}
-	free(command);
-	return (status);
 }
 
 /**

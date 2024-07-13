@@ -121,3 +121,36 @@ int shell_launch(char *user_input, char **args, int prev_status)
 	/* if no argument is found */
 	return (shell_execute(user_input, args, prev_status));
 }
+
+/**
+ * file_as_input - file with all the commands that the shell run before exiting
+ * @args: the argument passed
+ * Return: status
+ */
+int file_as_input(char **args)
+{
+	char *file_name = args[1];
+	char *line = NULL;
+	int status = 0;
+	size_t len = 0;
+	FILE *file;
+
+	file = fopen(file_name, "r");
+	if (file == NULL)
+	{
+		dprintf(2, "./hsh: 0: cannot open %s: No such file\n", file_name);
+		return (2);
+	}
+
+	/* Read one line at a time */
+	while (get_line(&line, &len, file) != -1)
+	{
+		/* Process the line */
+		status = shell(line);
+	}
+
+	/* Close the file */
+	fclose(file);
+
+	return (status);
+}
