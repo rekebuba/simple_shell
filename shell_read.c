@@ -17,7 +17,7 @@ char *read_line()
 		fflush(stdout);
 	}
 
-	read = get_line(&line, &len, stdin);
+	read = getline(&line, &len, stdin);
 
 	if (read == -1)
 	{

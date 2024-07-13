@@ -31,7 +31,6 @@ int _system(const char *command);
 int _strcmp(const char *str1, const char *str2);
 size_t _strcspn(const char *str1, const char *str2);
 
-ssize_t get_line(char **line_ptr, size_t *n, FILE *stream);
 int _atoi(const char *str);
 int is_colon(char *line);
 int logical_ope(char *line);

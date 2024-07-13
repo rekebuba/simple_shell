@@ -65,7 +65,10 @@ void valid_input(char **args)
 			if (args[index][1] != '\0' &&
 				_strcmp(args[index], "$$") != 0 && _strcmp(args[index], "$?") != 0)
 			{
-				args[index] = "";
+				if (index == 0 && args[index + 1] == NULL)
+					args[index] = NULL;
+				else
+					args[index] = args[index + 1] == NULL ? "" : args[index + 1];
 			}
 		}
 		index++;

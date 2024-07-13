@@ -105,7 +105,6 @@ void set_unset(char **args)
 			{
 				dprintf(2, "Failed to set environment variable\n");
 			}
-			printf("env: %s\n", getenv(args[i + 1]));
 		}
 		else if (_strcmp(args[i], "unsetenv") == 0)
 		{
