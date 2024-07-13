@@ -97,11 +97,7 @@ void set_unset(char **args)
 	{
 		if (_strcmp(args[i], "setenv") == 0)
 		{
-			if (args[i + 2] == NULL && setenv(args[i + 1], "", 1) != 0)
-			{
-				dprintf(2, "Failed to set environment variable\n");
-			}
-			else if (args[i + 2] != NULL && setenv(args[i + 1], args[i + 2], 1) != 0)
+			if (args[i + 2] != NULL && setenv(args[i + 1], args[i + 2], 1) != 0)
 			{
 				dprintf(2, "Failed to set environment variable\n");
 			}
