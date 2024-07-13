@@ -8,7 +8,7 @@
  */
 int shell_cd(char **args)
 {
-	char *home_dir = getenv("HOME") == NULL ? getenv("OLDPWD") : getenv("HOME");
+	char *home_dir = getenv("HOME") == NULL ? getenv("PWD") : getenv("HOME");
 	char *old_pwd = getenv("OLDPWD") == NULL ? getenv("PWD") : getenv("OLDPWD");
 	char cwd[1024];
 
