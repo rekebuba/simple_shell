@@ -93,6 +93,9 @@ void set_unset(char **args)
 {
 	int i;
 
+	if (args[1] == NULL)
+		return;
+
 	for (i = 0; args[i]; i++)
 	{
 		if (_strcmp(args[i], "setenv") == 0)
