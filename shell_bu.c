@@ -8,7 +8,7 @@
  */
 int shell_cd(char **args)
 {
-	char *home_dir;
+	char *home_dir = getenv("HOME") == NULL ? getenv("OLDPWD") : getenv("HOME");
 	char *old_pwd = getenv("OLDPWD") == NULL ? getenv("PWD") : getenv("OLDPWD");
 	char cwd[1024];
 
@@ -17,7 +17,6 @@ int shell_cd(char **args)
 	{
 		if (args[1] == NULL)
 		{
-			home_dir = getenv("HOME");
 			chdir(home_dir);
 		}
 		else if (strcmp(args[1], "-") == 0)
