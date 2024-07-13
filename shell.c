@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 			user_input = read_line();
 			if (user_input != NULL)
 			{
-				status = shell(user_input);
+				status = shell(user_input, status);
 			}
 			else
 				break;
@@ -36,12 +36,13 @@ int main(int argc, char **argv)
 /**
  * shell - process and executes user input
  * @user_input: user input
+ * @prev_status: return status of the previous command
  * Return: exit status
  */
-int shell(char *user_input)
+int shell(char *user_input, int prev_status)
 {
 	char **args = NULL;
-	int status = 0;
+	int status = prev_status;
 
 	shell_exit(user_input);
 	is_comment(user_input);

@@ -146,7 +146,7 @@ int file_as_input(char **args)
 	while (get_line(&line, &len, file) != -1)
 	{
 		/* Process the line */
-		status = shell(line);
+		status = shell(line, status);
 	}
 
 	/* Close the file */

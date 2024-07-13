@@ -40,6 +40,6 @@ void free_mem(char *user_input, char **args);
 int array_len(char **args);
 void valid_input(char **args);
 int file_as_input(char **args);
-int shell(char *user_input);
+int shell(char *user_input, int prev_status);
 
 #endif
