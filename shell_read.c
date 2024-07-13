@@ -41,7 +41,7 @@ char *read_line()
  */
 void is_comment(char *line)
 {
-	if (strchr(line, '#') != NULL)
+	if (strstr(line, " #") != NULL || *line == '#')
 	{
 		line[_strcspn(line, "#")] = '\0';
 	}

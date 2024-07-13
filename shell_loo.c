@@ -24,6 +24,7 @@ char **tok_colon(char *arg)
 		token = _strtok(NULL, ";&&||");
 	}
 	tokens[index] = NULL;
+
 	return (tokens);
 }
 
