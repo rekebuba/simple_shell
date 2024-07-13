@@ -139,7 +139,7 @@ int file_as_input(char **args)
 	if (file == NULL)
 	{
 		dprintf(2, "./hsh: 0: Can't open %s\n", file_name);
-		return (2);
+		return (127);
 	}
 
 	/* Read one line at a time */
