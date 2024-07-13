@@ -9,26 +9,22 @@
 int shell_cd(char **args)
 {
 	char *home_dir;
-	char *old_pwd = getenv("OLDPWD");
+	char *old_pwd = getenv("OLDPWD") == NULL ? getenv("PWD") : getenv("OLDPWD");
 	char cwd[1024];
+
 	/* Handle "cd" or "cd -" */
 	if (args[1] == NULL || strcmp(args[1], "-") == 0)
 	{
 		if (args[1] == NULL)
 		{
 			home_dir = getenv("HOME");
-			if (chdir(home_dir) != 0)
-			{
-				dprintf(2, "./hsh: 1: cd: can't cd to %s\n", home_dir);
-				return (1);
-			}
+			chdir(home_dir);
 		}
 		else if (strcmp(args[1], "-") == 0)
 		{
-			if (chdir(old_pwd) != 0)
+			if (chdir(old_pwd) == 0)
 			{
-				dprintf(2, "./hsh: 1: cd: can't cd to %s\n", old_pwd);
-				return (1);
+				dprintf(1, "%s\n", old_pwd);
 			}
 		}
 	}

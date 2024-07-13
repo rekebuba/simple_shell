@@ -38,12 +38,11 @@ int shell_execute(char *user_input, char **args, int prev_status)
 	}
 	else /* were in the parent processor */
 	{
+		if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$?") == 0)
+			dprintf(1, "%d\n", prev_status);
+		else if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$$") == 0)
+			dprintf(1, "%d\n", getpid());
 		do {
-			if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$?") == 0)
-				dprintf(1, "%d\n", prev_status);
-			else if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$$") == 0)
-				dprintf(1, "%d\n", getpid());
-
 			waitpid(pid, &status, WUNTRACED);
 			count++;
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
