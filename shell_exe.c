@@ -14,14 +14,14 @@ int shell_execute(char *user_input, char **args, int prev_status)
 	static int count = 1;
 
 	pid = fork();
-
-	if (pid == 0)
+	if (pid == 0) /* were in the chilled processor */
 	{
-		/* were in the chilled processor */
-		if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$?") == 0)
-			dprintf(1, "%d\n", prev_status);
-		else if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$$") == 0)
-			dprintf(1, "%d\n", getpid());
+		if (_strcmp(args[0], "echo") == 0 && ((_strcmp(args[1], "$?") == 0) ||
+											  _strcmp(args[1], "$$") == 0))
+		{
+			free_mem(user_input, args);
+			exit(EXIT_SUCCESS);
+		}
 		else if (execvp(args[0], args) == -1)
 		{
 			dprintf(2, "./hsh: %d: %s: not found\n", count, args[0]);
@@ -29,24 +29,24 @@ int shell_execute(char *user_input, char **args, int prev_status)
 			free_mem(user_input, args);
 			exit(EXIT_FAILURE);
 		}
-		free_mem(user_input, args);
-		exit(EXIT_SUCCESS);
 	}
-	else if (pid < 0)
+	else if (pid < 0) /* failed to fork */
 	{
-		/* failed to fork */
 		perror("failed to fork\n");
 		free_mem(user_input, args);
 		exit(EXIT_FAILURE);
 	}
-	else
+	else /* were in the parent processor */
 	{
-		/* were in the parent processor */
 		do {
+			if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$?") == 0)
+				dprintf(1, "%d\n", prev_status);
+			else if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$$") == 0)
+				dprintf(1, "%d\n", getpid());
+
 			waitpid(pid, &status, WUNTRACED);
 			count++;
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
-
 	return (WEXITSTATUS(status) == 1 ? 127 : WEXITSTATUS(status));
 }
