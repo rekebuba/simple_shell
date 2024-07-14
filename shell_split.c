@@ -19,7 +19,7 @@ char **shell_split_line(char *line)
 	}
 
 	token = _strtok(line, TOK_DELIM);
-	while (token != NULL)
+	while (token)
 	{
 		tokens[index] = token;
 		index++;
@@ -53,7 +53,7 @@ void valid_input(char **args)
 	int index = 0;
 	char *env;
 
-	while (args[index] != NULL)
+	while (args[index])
 	{
 		if (strcmp(args[0], "alias") != 0)
 			args[index] = assign_value(args[index]);

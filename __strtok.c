@@ -12,7 +12,7 @@ char *_strtok(char *str, const char *delim)
 	static char *next_token;
 	char *token;
 
-	if (str != NULL)
+	if (str)
 	{
 		next_token = str;
 	}
@@ -20,7 +20,7 @@ char *_strtok(char *str, const char *delim)
 	{
 		return (NULL);
 	}
-	while (*next_token != '\0' && strchr(delim, *next_token) != NULL)
+	while (*next_token != '\0' && strchr(delim, *next_token))
 	{
 		next_token++;
 	}

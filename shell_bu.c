@@ -37,7 +37,7 @@ int shell_cd(char **args)
 	}
 	/* Update OLDPWD and PWD environment variables */
 	setenv("OLDPWD", getenv("PWD"), 1);
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	if (getcwd(cwd, sizeof(cwd)))
 	{
 		setenv("PWD", cwd, 1);
 	}
@@ -63,7 +63,7 @@ void shell_exit(char *line)
 
 	result = _strtok(line, " ");
 	result = _strtok(NULL, " ");
-	if (result != NULL)
+	if (result)
 	{
 		for (i = 0; result[i]; i++)
 		{

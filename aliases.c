@@ -20,9 +20,9 @@ int shell_alias(char **args)
 		setenv("ALIAS", "", 1);
 
 	buffer = malloc(BUFFER * sizeof(char));
-	while (args[i] != NULL)
+	for (; args[i]; i++)
 	{
-		if (strchr(args[i], '=') != NULL)
+		if (strchr(args[i], '='))
 		{
 			check_existing_alias(args[i]);
 
@@ -43,7 +43,6 @@ int shell_alias(char **args)
 		}
 		else
 			print_alias(args[i]);
-		i++;
 	}
 	free(buffer);
 	return (0);
@@ -74,7 +73,7 @@ void print_alias(char *alias)
 	}
 
 	key_value = tok_colon(aliases, ":");
-	while (key_value[i] != NULL)
+	while (key_value[i])
 	{
 		key = _strtok(strdup(key_value[i]), "=");
 		if (alias)
@@ -127,7 +126,7 @@ void check_existing_alias(char *alias)
 	{
 		new_alias = malloc(BUFFER * sizeof(char));
 		new_alias[0] = '\0'; /* Initialize the string to an empty string */
-		for (i = 0; key_value[i] != NULL; i++)
+		for (i = 0; key_value[i]; i++)
 		{
 			strcat(new_alias, ":");
 			strcat(new_alias, key_value[i]);
@@ -161,7 +160,7 @@ char *assign_value(char *key)
 	}
 
 	key_value = tok_colon(aliases, ":");
-	while (key_value[i] != NULL)
+	while (key_value[i])
 	{
 		alias = _strtok(strdup(key_value[i]), "=");
 		if (strcmp(alias, key) == 0)

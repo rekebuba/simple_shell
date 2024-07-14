@@ -10,7 +10,9 @@ int main(int argc, char **argv)
 {
 	char *user_input;
 	int status = 0;
+
 	(void)argc;
+
 	signal(SIGINT, _signal);
 	if (argv[1])
 	{
@@ -20,7 +22,7 @@ int main(int argc, char **argv)
 	{
 		do {
 			user_input = read_line();
-			if (user_input != NULL)
+			if (user_input)
 			{
 				status = shell(user_input, status);
 			}
@@ -47,13 +49,9 @@ int shell(char *user_input, int prev_status)
 	shell_exit(user_input);
 	is_comment(user_input);
 	if (strstr(user_input, "&&") || strstr(user_input, "||"))
-	{
 		status = logical_ope(user_input);
-	}
-	else if (strchr(user_input, ';') != NULL)
-	{
+	else if (strchr(user_input, ';'))
 		status = is_colon(user_input);
-	}
 	else if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
 	{
 		args = shell_split_line(user_input);
@@ -100,7 +98,7 @@ void set_unset(char **args)
 	{
 		if (_strcmp(args[i], "setenv") == 0)
 		{
-			if (args[i + 2] != NULL && setenv(args[i + 1], args[i + 2], 1) != 0)
+			if (args[i + 2] && setenv(args[i + 1], args[i + 2], 1) != 0)
 			{
 				dprintf(2, "Failed to set environment variable\n");
 			}

@@ -25,7 +25,7 @@ int array_len(char **args)
 {
 	int arg_count = 0;
 
-	while (args[arg_count] != NULL)
+	while (args[arg_count])
 	{
 		arg_count++;
 	}

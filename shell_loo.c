@@ -18,7 +18,7 @@ char **tok_colon(char *arg, char *delimeter)
 		exit(EXIT_FAILURE);
 	}
 	token = _strtok(arg, delimeter);
-	while (token != NULL)
+	while (token)
 	{
 		tokens[index] = token;
 		index++;
@@ -46,7 +46,7 @@ int logical_ope(char *user_input)
 	char *ptr = strdup(user_input);
 
 	command = tok_colon(ptr, "&&||");
-	while (command[i] != NULL)
+	while (command[i])
 	{
 		found = strpbrk(first_occurrence, "&&||");
 		args = shell_split_line(command[i]);
@@ -82,7 +82,7 @@ int is_colon(char *user_input)
 	int status = 0;
 
 	command = tok_colon(user_input, ";");
-	while (command[i] != NULL)
+	while (command[i])
 	{
 		args = shell_split_line(command[i]);
 		status = shell_launch(user_input, args, status);
