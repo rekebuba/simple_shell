@@ -148,6 +148,7 @@ void check_existing_alias(char *alias)
 		i = 0;
 		while (key_value[i] != NULL)
 		{
+			strcat(new_alias, ":");
 			strcat(new_alias, key_value[i]);
 			i++;
 		}
