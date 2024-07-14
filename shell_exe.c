@@ -42,12 +42,10 @@ int shell_execute(char *user_input, char **args, int prev_status)
 			dprintf(1, "%d\n", prev_status);
 		else if (_strcmp(args[0], "echo") == 0 && _strcmp(args[1], "$$") == 0)
 			dprintf(1, "%d\n", getpid());
-		do
-		{
+		do {
 			waitpid(pid, &status, WUNTRACED);
 			count++;
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return (WEXITSTATUS(status) == 1 ? 127 : WEXITSTATUS(status));
 }
-

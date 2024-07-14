@@ -3,14 +3,12 @@
 /**
  * shell_alias - handle all alias from the shell
  * @args: argument passed to set the alias
- * Returns: status code
+ * Return: status code
  */
 int shell_alias(char **args)
 {
-	char *new_alias;
+	char *new_alias, *buffer, *old_alias;
 	int i = 1;
-	char *buffer;
-	char *old_alias;
 
 	if (args[i] == NULL)
 	{
@@ -19,12 +17,9 @@ int shell_alias(char **args)
 	}
 
 	if (getenv("ALIAS") == NULL)
-	{
 		setenv("ALIAS", "", 1);
-	}
 
 	buffer = malloc(BUFFER * sizeof(char));
-	/* Construct the new $ALIAS value by appending the new directory */
 	while (args[i] != NULL)
 	{
 		if (strchr(args[i], '=') != NULL)
@@ -43,29 +38,21 @@ int shell_alias(char **args)
 			else
 				sprintf(new_alias, "%s:%s", old_alias, buffer);
 
-			if (setenv("ALIAS", new_alias, 1) != 0)
-			{
-				fprintf(stderr, "Error: Failed to update $ALIAS environment variable.\n");
-				free(new_alias);
-				free(buffer);
-				return (1);
-			}
+			setenv("ALIAS", new_alias, 1);
 			free(new_alias);
 		}
 		else
 			print_alias(args[i]);
 		i++;
 	}
-
 	free(buffer);
-
 	return (0);
 }
 
 /**
  * print_alias - used to print available aliases
  * @alias: the alias to print if NULL prints all the aliases
- * Returns: void
+ * Return: void
  */
 void print_alias(char *alias)
 {
@@ -108,28 +95,25 @@ void print_alias(char *alias)
 /**
  * check_existing_alias - checks existing alias if so it removes it
  * @alias: the alias to check
- * Returns: Void
+ * Return: Void
  */
 void check_existing_alias(char *alias)
 {
-	char *aliases = NULL, *value_to_update = NULL, *new_alias = NULL;
+	char *aliases = NULL, *value_to_update = NULL, *new_alias = NULL, *key = NULL;
 	char **key_value = NULL;
-	char *key = NULL;
-	int i = 0;
 	bool status = false;
+	int i;
 
 	aliases = strdup(getenv("ALIAS"));
-	if (strlen(aliases) == 0)
+	if (!aliases || strlen(aliases) == 0)
 	{
 		free(aliases);
 		return;
 	}
-
 	value_to_update = strdup(alias);
 	value_to_update[strcspn(value_to_update, "=")] = '\0';
-
 	key_value = tok_colon(aliases, ":");
-	while (key_value[i] != NULL)
+	for (i = 0; key_value[i]; i++)
 	{
 		key = _strtok(strdup(key_value[i]), "=");
 		if (strcmp(key, value_to_update) == 0)
@@ -138,25 +122,20 @@ void check_existing_alias(char *alias)
 			status = true;
 		}
 		free(key);
-		i++;
 	}
-
 	if (status)
 	{
 		new_alias = malloc(BUFFER * sizeof(char));
 		new_alias[0] = '\0'; /* Initialize the string to an empty string */
-		i = 0;
-		while (key_value[i] != NULL)
+		for (i = 0; key_value[i] != NULL; i++)
 		{
 			strcat(new_alias, ":");
 			strcat(new_alias, key_value[i]);
-			i++;
 		}
 		setenv("ALIAS", new_alias, 1);
 		free(new_alias);
 		free(key_value[i]);
 	}
-
 	free(aliases);
 	free(value_to_update);
 	free(key_value);
@@ -165,7 +144,7 @@ void check_existing_alias(char *alias)
 /**
  * assign_value - assign value to the shell prompt if it has alias
  * @key: prompt to check
- * Returns: void
+ * Return: modified value
  */
 char *assign_value(char *key)
 {
@@ -178,7 +157,7 @@ char *assign_value(char *key)
 	if (aliases == NULL)
 	{
 		free(aliases);
-		return key;
+		return (key);
 	}
 
 	key_value = tok_colon(aliases, ":");
@@ -198,9 +177,9 @@ char *assign_value(char *key)
 	{
 		free(aliases);
 		free(key_value);
-		return assign_value(key);
+		return (assign_value(key));
 	}
 	free(aliases);
 	free(key_value);
-	return key;
+	return (key);
 }
