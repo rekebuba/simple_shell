@@ -96,9 +96,9 @@ void shell_exit(char *line)
 int shell_launch(char *user_input, char **args, int prev_status)
 {
 	int i = 0;
-	char *built_in_str[] = {"cd"};
+	char *built_in_str[] = {"cd", "alias"};
 
-	int (*builtin_function[])(char **) = {&shell_cd};
+	int (*builtin_function[])(char **) = {&shell_cd, &shell_alias};
 	int number_of_builtin = sizeof(built_in_str) / sizeof(char *);
 
 	if (args[0] == NULL)

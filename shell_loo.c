@@ -3,9 +3,10 @@
 /**
  * tok_colon - tokenize the string by semicolon
  * @arg: the string passed
+ * @delimeter: delimeter passed as an argument
  * Return: char**
  */
-char **tok_colon(char *arg)
+char **tok_colon(char *arg, char *delimeter)
 {
 	char **tokens = malloc(BUFFER * sizeof(char *));
 	char *token;
@@ -16,12 +17,12 @@ char **tok_colon(char *arg)
 		dprintf(2, "error allocating memory");
 		exit(EXIT_FAILURE);
 	}
-	token = _strtok(arg, ";&&||");
+	token = _strtok(arg, delimeter);
 	while (token != NULL)
 	{
 		tokens[index] = token;
 		index++;
-		token = _strtok(NULL, ";&&||");
+		token = _strtok(NULL, delimeter);
 	}
 	tokens[index] = NULL;
 
@@ -44,7 +45,7 @@ int logical_ope(char *user_input)
 	char *first_occurrence = user_input;
 	char *ptr = strdup(user_input);
 
-	command = tok_colon(ptr);
+	command = tok_colon(ptr, "&&||");
 	while (command[i] != NULL)
 	{
 		found = strpbrk(first_occurrence, "&&||");
@@ -80,7 +81,7 @@ int is_colon(char *user_input)
 	char **args;
 	int status = 0;
 
-	command = tok_colon(user_input);
+	command = tok_colon(user_input, ";");
 	while (command[i] != NULL)
 	{
 		args = shell_split_line(command[i]);

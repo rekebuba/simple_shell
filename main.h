@@ -23,7 +23,7 @@ int shell_launch(char *user_input, char **args,  int prev_status);
 int shell_cd(char **args);
 void shell_exit(char *line);
 void _signal(int signal);
-char **tok_colon(char *arg);
+char **tok_colon(char *arg, char *delimeter);
 size_t _strlen(const char *str);
 int _system(const char *command);
 int _strcmp(const char *str1, const char *str2);
@@ -38,5 +38,9 @@ int array_len(char **args);
 void valid_input(char **args);
 int file_as_input(char **args);
 int shell(char *user_input, int prev_status);
+int shell_alias(char **args);
+void print_alias(char *alias);
+void check_existing_alias(char *alias);
+char *assign_value(char *key);
 
 #endif

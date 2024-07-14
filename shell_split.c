@@ -44,7 +44,7 @@ char **shell_split_line(char *line)
 }
 
 /**
- * valid_input - verify validity of user input
+ * valid_input - modify user input either from env or alias
  * @args: users input in argument form
  * Returns: void
  */
@@ -55,6 +55,9 @@ void valid_input(char **args)
 
 	while (args[index] != NULL)
 	{
+		if (strcmp(args[0], "alias") != 0)
+			args[index] = assign_value(args[index]);
+
 		if (*args[index] == '$' && getenv(args[index] + 1))
 		{
 			env = getenv(args[index] + 1);
