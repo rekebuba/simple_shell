@@ -8,23 +8,23 @@
  */
 int main(int argc, char **argv)
 {
-	char *user_input;
+	char *user_input = NULL;
+	struct Node *head = NULL;
 	int status = 0;
 
 	(void)argc;
 
 	signal(SIGINT, _signal);
 	if (argv[1])
-	{
-		status = file_as_input(argv);
-	}
+		status = file_as_input(head, argv);
 	else
 	{
 		do {
-			user_input = read_line();
+			user_input = read_line(user_input);
 			if (user_input)
 			{
-				status = shell(user_input, status);
+				status = shell(&head, user_input, status);
+				free(user_input);
 			}
 			else
 				break;
@@ -32,38 +32,76 @@ int main(int argc, char **argv)
 		} while (true);
 	}
 
+	freeList(head);
+
 	return (status);
 }
 
 /**
  * shell - process and executes user input
+ * @head: head of a single linked list that contains aliases
  * @user_input: user input
  * @prev_status: return status of the previous command
  * Return: exit status
  */
-int shell(char *user_input, int prev_status)
+int shell(struct Node **head, char *user_input, int prev_status)
 {
 	char **args = NULL;
 	int status = prev_status;
 
-	shell_exit(user_input);
+	shell_exit(head, user_input, prev_status);
 	is_comment(user_input);
 	if (strstr(user_input, "&&") || strstr(user_input, "||"))
-		status = logical_ope(user_input);
+		status = logical_ope(head, user_input);
 	else if (strchr(user_input, ';'))
-		status = is_colon(user_input);
+		status = is_colon(head, user_input);
 	else if (strstr(user_input, "setenv") || strstr(user_input, "unsetenv"))
 	{
-		args = shell_split_line(user_input);
-		set_unset(args);
+		args = shell_split_line(head, user_input);
+		set_unset_env(args);
 	}
 	else
 	{
-		args = shell_split_line(user_input);
-		status = shell_launch(user_input, args, status);
+		args = shell_split_line(head, user_input);
+		status = shell_launch(head, user_input, args, status);
 	}
 
-	free_mem(user_input, args);
+	free(args);
+
+	return (status);
+}
+
+/**
+ * file_as_input - file with all the commands that the shell run before exiting
+ * @head: head of a single linked list that contains aliases
+ * @args: the argument passed
+ * Return: status
+ */
+int file_as_input(struct Node *head, char **args)
+{
+	char *file_name = args[1];
+	char *line = NULL;
+	int status = 0;
+	size_t len = 0;
+	FILE *file;
+
+	file = fopen(file_name, "r");
+	if (file == NULL)
+	{
+		dprintf(2, "./hsh: 0: Can't open %s\n", file_name);
+		return (127);
+	}
+
+	/* Read one line at a time */
+	while (get_line(&line, &len, file) != -1)
+	{
+		/* Process the line */
+		status = shell(&head, line, status);
+	}
+
+	/* Close the file */
+	fclose(file);
+	free(line);
 
 	return (status);
 }
@@ -78,43 +116,6 @@ void free_mem(char *user_input, char **args)
 {
 	free(user_input);
 	free(args);
-}
-
-/**
- * set_unset - This function sets or un_sets environment variables
- *
- * @args: The arguments passed to the function
- *
- * Return: void
- */
-void set_unset(char **args)
-{
-	int i;
-
-	if (args[1] == NULL)
-		return;
-
-	for (i = 0; args[i]; i++)
-	{
-		if (_strcmp(args[i], "setenv") == 0)
-		{
-			if (args[i + 2] && setenv(args[i + 1], args[i + 2], 1) != 0)
-			{
-				dprintf(2, "Failed to set environment variable\n");
-			}
-		}
-		else if (_strcmp(args[i], "unsetenv") == 0)
-		{
-			if (unsetenv(args[i + 1]) != 0)
-			{
-				dprintf(2, "Failed to unset environment variable\n");
-			}
-		}
-		else if (array_len(args) == 1 && _strcmp(args[i], "env") == 0)
-		{
-			system(args[i]);
-		}
-	}
 }
 
 /**
